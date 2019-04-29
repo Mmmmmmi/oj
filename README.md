@@ -4,9 +4,16 @@
 ### GCC 4.9+
 - Centos下gcc升级方法
 ```
+//这时偷懒的一种做法
 yum install centos-release-scl -y
 yum install devtoolset-7 -y
 scl enable devtoolset-7 bash
+echo $PATH
+//将输出的内容复制
+vim ~/.bashrc
+//添加一行
+export PATH=复制的内容
+//保存退出后，重写打开当前终端或者在终端输入 source ~/.bashrc 即可生效
 gcc --version
 ```
 - Debian 一般默认版本即可
