@@ -29,4 +29,4 @@ gcc --version
 ## **run**
    `./oj_server`
 ## **查看端口状态**
-   netstat -anp | grep 9092
+   `netstat -anp | grep 9092`
