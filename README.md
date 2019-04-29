@@ -4,7 +4,7 @@
 ### GCC 4.9+
 - Centos下gcc升级方法
 ```
-//这时偷懒的一种做法
+//这是偷懒的一种做法
 yum install centos-release-scl -y
 yum install devtoolset-7 -y
 scl enable devtoolset-7 bash
