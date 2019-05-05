@@ -52,7 +52,7 @@ int main()
                 OjView::RenderResult(resp_json["stdout"].asString(),resp_json["reason"].asString(), html);
                 resp.set_content(html, "text/html");
                 });
-    server.set_base_dir("./m");
+    server.set_base_dir("./template");
     server.listen("0.0.0.0", 9092);
     return 0;
 }
