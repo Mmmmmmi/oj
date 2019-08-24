@@ -1,5 +1,5 @@
 #pragma once
-#include <ctemplate/template.h>
+#include "include/ctemplate/template.h"
 #include "oj_model.hpp"
 class OjView
 {

@@ -23,7 +23,7 @@ gcc --version
 - [jsoncpp](https://github.com/open-source-parsers/jsoncpp)
 - [httplib](https://github.com/yhirose/cpp-httplib)
 - [ctemplate](https://github.com/olafvdspek/ctemplate)
-- boost
+- boost `yum install boost` `yum install boost-devel` `yum install boost-doc`
 - 源码已下载至lib中，需自行编译安装，httplib只需要头文件即可，项目中已包含可不必下载。
 
 ## **run**
