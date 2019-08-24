@@ -29,7 +29,7 @@ gcc --version
 
         自行编译方法，解压缩后输入以下命令
         ./autogen.sh && ./configure
-        make install.
+        make install
 
 - **boost** 需进行安装
 
