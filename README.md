@@ -8,23 +8,36 @@
 yum install centos-release-scl -y
 yum install devtoolset-7 -y
 scl enable devtoolset-7 bash
-echo $PATH
-//将输出的内容复制
-vim ~/.bashrc
-//添加一行
-export PATH=复制的内容
-//保存退出后，重写打开当前终端或者在终端输入 source ~/.bashrc 即可生效
 gcc --version
 ```
 - Debian 一般默认版本即可
 ### make
 
 ## **第三方库**
-- [jsoncpp](https://github.com/open-source-parsers/jsoncpp)
-- [httplib](https://github.com/yhirose/cpp-httplib)
-- [ctemplate](https://github.com/olafvdspek/ctemplate)
-- boost `yum install boost` `yum install boost-devel` `yum install boost-doc`
-- 源码已下载至lib中，需自行编译安装，httplib只需要头文件即可，项目中已包含可不必下载。
+- [**httplib**](https://github.com/yhirose/cpp-httplib) 只需要使用头文件
+- [**jsoncpp**](https://github.com/open-source-parsers/jsoncpp)
+已链接静态库
+
+        自行编译方法，解压缩后输入以下命令
+        先安装scons
+            sudo yum install scons
+            或者
+            sudo apt-get install scons
+        scons platform=linux-gcc
+
+- [**ctemplate**](https://github.com/olafvdspek/ctemplate) 已链接静态库
+
+        自行编译方法，解压缩后输入以下命令
+        ./autogen.sh && ./configure
+        make install
+
+- **boost** 需进行安装
+
+        yum install boost
+        yum install boost-devel
+        yum install boost-doc
+
+- 源码已下载至lib中，可自行编译安装，httplib只需要头文件即可，项目中已包含可不必下载。其他库已链接静态库
 
 ## **服务端运行**
    `./oj_server`
