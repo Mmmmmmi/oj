@@ -26,7 +26,9 @@ gcc --version
 - boost `yum install boost` `yum install boost-devel` `yum install boost-doc`
 - 源码已下载至lib中，需自行编译安装，httplib只需要头文件即可，项目中已包含可不必下载。
 
-## **run**
+## **服务端运行**
    `./oj_server`
 ## **查看端口状态**
    `netstat -anp | grep 9092`
+## **客户端运行**
+   `ip地址:9092/all_questions`
