@@ -7,7 +7,8 @@
 //这是偷懒的一种做法
 yum install centos-release-scl -y
 yum install devtoolset-7 -y
-scl enable devtoolset-7 bash
+scl enable devtoolset-7 bash   // 只有本次有效 
+//在 ~/.bash_profile 里面 添加一行 每次打开终端都会自动执行 即可永久生效
 gcc --version
 ```
 - Debian 一般默认版本即可
