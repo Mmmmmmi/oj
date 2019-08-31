@@ -22,7 +22,7 @@ public:
             table_dict->SetValue("star", question.star);
         }
         ctemplate::Template* tpl;
-        tpl = ctemplate::Template::GetTemplate("./template/all_questions.html", ctemplate::DO_NOT_STRIP);
+        tpl = ctemplate::Template::GetTemplate("./template/all_questions/all_questions.html", ctemplate::DO_NOT_STRIP);
         tpl->Expand(&html, &dict);
     }
 
@@ -35,7 +35,7 @@ public:
         dict.SetValue("desc", question.desc);
         dict.SetValue("header", question.header_cpp);
         ctemplate::Template* tpl;
-        tpl = ctemplate::Template::GetTemplate("./template/question.html", ctemplate::DO_NOT_STRIP);
+        tpl = ctemplate::Template::GetTemplate("./template/question/question.html", ctemplate::DO_NOT_STRIP);
         tpl->Expand(&html, &dict);
     }
 
@@ -45,7 +45,7 @@ public:
         dict.SetValue("stdout", str_stdout);
         dict.SetValue("reason", reason);
         ctemplate::Template* tpl;
-        tpl = ctemplate::Template::GetTemplate("./template/result.html", ctemplate::DO_NOT_STRIP);
+        tpl = ctemplate::Template::GetTemplate("./template/result/result.html", ctemplate::DO_NOT_STRIP);
         tpl->Expand(&html, &dict);
     }
 
