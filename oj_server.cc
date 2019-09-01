@@ -19,6 +19,15 @@ int main()
                resp.set_content(html, "text/html");
                });
 
+    server.Post("/all_questions", [&model] (const Request& req, Response& resp) {
+               (void) req;
+               std::vector<Question> all_questions;
+               model.GetAllQuestions(all_questions);
+               std::string html;
+               OjView::RenderAllQuestions(all_questions, html);
+               resp.set_content(html, "text/html");
+               });
+
     //R"()" C++11 引入的语法，原始字符串(忽略字符串中的转义字符)
     //\d + 正则表达式 
     //用一些特殊符号来标识字符串满足啥样的条件
