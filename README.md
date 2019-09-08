@@ -16,29 +16,40 @@ gcc --version
 
 ## **第三方库**
 - [**httplib**](https://github.com/yhirose/cpp-httplib) 只需要使用头文件
-- [**jsoncpp**](https://github.com/open-source-parsers/jsoncpp)
-已链接静态库
+- [**jsoncpp**](https://github.com/open-source-parsers/jsoncpp) 已链接静态库
 
         自行编译方法，解压缩后输入以下命令
         先安装scons
             sudo yum install scons
             或者
             sudo apt-get install scons
-        scons platform=linux-gcc
+        也可以源码编译，先安装 python
+            sudo yum install python2.7
+            或者
+            sudo apt-get install python2.7
+            然后 进入 lib 文件夹下，解压scons
+            cd scons
+            sudo python setup.py install
+        再编译 jsoncpp
+            scons platform=linux-gcc
 
 - [**ctemplate**](https://github.com/olafvdspek/ctemplate) 已链接静态库
 
         自行编译方法，解压缩后输入以下命令
         ./autogen.sh && ./configure
-        make install
+        make
 
 - **boost** 需进行安装
 
         yum install boost
         yum install boost-devel
         yum install boost-doc
+        或者
+        apt-get install boost
+        apt-get install boost-devel
+        apt-get install boost-doc
 
-- 源码已下载至lib中，可自行编译安装，httplib只需要头文件即可，项目中已包含可不必下载。其他库已链接静态库
+- 源码已下载至 `lib` 中，可自行编译安装， `httplib` 只需要头文件即可，项目中已包含可不必下载。其他库已链接静态库，但是不同平台需要的库不同，需要在 `lib` 文件夹下将对应平台的 `.a` 文件，挪到 `lib` 下，也就是从 `Centos/Debian` 中将 `./a` 挪出来即可
 
 ## **服务端运行**
    `./oj_server`
