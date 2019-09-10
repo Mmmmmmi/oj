@@ -26,7 +26,6 @@ int main()
                //LOG(INFO) << req.matches[0].str() << ", " << req.matches[1].str() << "\n";
                Question question;
                model.GetQuestion(req.matches[1].str(), question);
-               std::cout << question.header_cpp << std::endl;
                std::string html;
                OjView::RenderQuestion(question, html);
                resp.set_content(html, "text/html");
