@@ -1,18 +1,18 @@
 # **基于C++实现的简易在线oj**
 ## **运行环境**
 ### Linux
+### make
 ### GCC 4.9+
 - Centos下gcc升级方法
-```
-//这是偷懒的一种做法
-yum install centos-release-scl -y
-yum install devtoolset-7 -y
-scl enable devtoolset-7 bash   // 只有本次有效 
-//在 ~/.bash_profile 里面 添加一行 每次打开终端都会自动执行 即可永久生效
-gcc --version
-```
+  ```
+  //这是偷懒的一种做法
+  yum install centos-release-scl -y
+  yum install devtoolset-7 -y
+  scl enable devtoolset-7 bash   // 只有本次有效 
+  //在 ~/.bash_profile 里面 添加一行 每次打开终端都会自动执行 即可永久生效
+  gcc --version
+  ```
 - Debian 一般默认版本即可
-### make
 
 ## **第三方库**
 - [**httplib**](https://github.com/yhirose/cpp-httplib) 只需要使用头文件
