@@ -230,7 +230,7 @@ class  TemplateString {
   // This requires the gnu linker (and probably elf), to define
   // _start and data_start.
   static bool InTextSegment(const char* s) {
-#if 1
+#if 0
     return (s >= _start && s < data_start);   // in .text
 #else
     return false;    // the conservative choice: assume it's not static memory
