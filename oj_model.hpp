@@ -30,7 +30,7 @@ struct Question
     std::string desc;   //题目的描述
     std::string header_cpp;     //题目代码框架中的代码
     std::string tail_cpp;       //题目的测试用例代码
-};  
+}; 
 
 class OjModel 
 {
@@ -51,7 +51,7 @@ public:
             std::vector<std::string> tokens;
             StringUtil::Split(line, "\t" , tokens);
             if (tokens.size() != 4) {
-                LOG(ERROR) << "config file format error!\n";
+                LOG(ERROR) << "Config File Format Error!\n";
                 continue;
             }
             //4. 把结构体加入hash表中
@@ -67,7 +67,7 @@ public:
             _model[q.id] = q;
         }
         file.close();
-        LOG(INFO) << " Load " << _model.size() << " questions\n";
+        LOG(INFO) << "Load " << _model.size() << " Questions\n";
         return true;
     }
     bool GetAllQuestions(std::vector<Question>& questions) const

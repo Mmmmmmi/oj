@@ -3,3 +3,9 @@ temp_files/*
 .vscode/settings.json
 oj_server
 example.sh
+test
+lib/libjsoncpp.a
+lib/libctemplate.a
+test.cc
+*.json
+.DS_Store

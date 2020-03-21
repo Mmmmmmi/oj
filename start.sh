@@ -5,7 +5,7 @@
 
 function kill_old_server()
 {
-    echo "---------- kill old server ----------"
+    echo "---------- kill old server begin ----------"
 
     system_type=`get_system_type`
     if [ ${system_type} == "Darwin" ]; then
@@ -19,20 +19,19 @@ function kill_old_server()
         exit
     fi
 
-    if [ $? -eq 0 ]; then
-        echo "process id : "${old_server_pid}
-    else
+    if [ "$old_server_pid" = "" ]; then
         echo "old oj_server not exit"
-        exit
-    fi
-
-    kill -9 ${old_server_pid}
-
-    if [ $? -eq 0 ];then
-        echo "kill old oj_server success"
     else
-        echo "kill old oj_server fail"
+        echo "process id : "${old_server_pid}
+
+        kill -9 ${old_server_pid}
+        if [ $? -eq 0 ];then
+            echo "kill old oj_server success"
+        else
+            echo "kill old oj_server fail"
+        fi
     fi
+    echo "---------- kill old server end ----------"
 }
 
 
@@ -60,9 +59,12 @@ function get_linux_distro()
 
 function start_server()
 {
+    echo "---------- start server begin ----------"
     make
     kill_old_server
     ./oj_server >> /dev/null &
+    echo "start oj_server success"
+    echo "---------- start server end ----------" 
 }
 
 function start_mac_server()
@@ -106,7 +108,7 @@ function main()
     color="$(tput setaf 4)"
     normal="$(tput sgr0)"
     printf "${color}"
-    echo "---------- start server begin ----------"
+    echo "==================== start.sh begin ===================="
     system_type=`get_system_type`
     echo "system_type is : "${system_type}
     if [ ${system_type} == "Darwin" ]; then
@@ -118,7 +120,7 @@ function main()
     else 
         echo "Not support system type : "${system_type}
     fi
-    echo "---------- start server end ----------"
+    echo "==================== start.sh end ===================="
     printf "${normal}"
 }
 

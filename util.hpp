@@ -49,29 +49,29 @@ enum Level {
     FATAL,
 };
 
-inline std::ostream& log(Level level, const std::string& msg, const std::string& file_name, int line_num)
+inline std::ostream& log(Level level, const std::string& file_name, int line_num)
 {
     std::string prefix = "[";
     if (level == INFO) {
-        prefix += "I";
+        prefix += " INFO ";
     }else if (level == WARING) {
-        prefix += "W";
+        prefix += " WARING ";
     }else if (level == ERROR) {
-        prefix += "E";
+        prefix += " ERROR ";
     }else if (level == FATAL) {
-        prefix += "F";
+        prefix += " FATAL ";
     }
     prefix += std::to_string(TimeUtil::TimeStamp());
     prefix += " ";
     prefix += file_name;
-    prefix += ":";
+    prefix += " : ";
     prefix += std::to_string(line_num);
-    prefix += "] ";
+    prefix += " ] ";
     std::cout << prefix;
     return std::cout;
 }
 
-#define LOG(level) log(level, "0", __FILE__, __LINE__)
+#define LOG(level) log(level, __FILE__, __LINE__)
 
 
 //准备文件相关工具类
@@ -87,6 +87,7 @@ public:
         content.clear();
         std::ifstream file(file_path.c_str());
         if (!file.is_open()) {
+            LOG(ERROR) << "Open File " << file_path << " Fail : "  << strerror(errno) << std::endl;
             return false;
         }
 
@@ -97,6 +98,7 @@ public:
             content += line + "\n"; 
         }
         file.close();
+        LOG(INFO) << "Read File " << file_path <<  " Success" << std::endl;
         return true;
     }
 
@@ -105,10 +107,12 @@ public:
     {
         std::ofstream file(file_path.c_str());
         if (!file.is_open()) {
+            LOG(ERROR) << "Open File " << file_path << " Fail : "  << strerror(errno) << std::endl;
             return false;
         }
         file.write(content.c_str(), content.size());
         file.close();
+        LOG(INFO) << "Write File " << file_path <<" Success" << std::endl;
         return true;
     }
 };
@@ -215,4 +219,25 @@ public:
     }
 };
 
+#include "include/json/json.h"
 
+class JsonUtil
+{
+public:
+    JsonUtil() {}
+    ~JsonUtil() {}
+    static bool GetJsonFromFile(const std::string file_path, Json::Value& json_value)
+    {
+        json_value.clear();
+        Json::Reader reader;
+        std::string file_content = "";
+        if (!FileUtil().Read(file_path, file_content))
+        {
+            LOG(ERROR) << "Get Json From File " << file_path << " Fail" << std::endl;
+            return false;
+        }
+        reader.parse(file_content, json_value);
+        LOG(INFO) << "Get Json From File " << file_path << " Success" << std::endl;
+        return true;
+    }
+};
