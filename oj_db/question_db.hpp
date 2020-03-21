@@ -73,45 +73,34 @@ public:
             int row = mysql_num_rows(res_ptr) + 1;
             LOG(INFO) << "Query row = " << row << " column = "<< column << std::endl;
 
-            /*输出結果的字段名*/
-            /*
-            for (int i = 0; ; i++)
-                printf("%s\t", field->name);
-            printf("\n");
-            */
-            while(field = mysql_fetch_field(res_ptr))
-            {
-                std::cout << field->name << std::endl;
-            }
+            /*输出结果的字段名*/
+            //mysql_fetch_field(res_ptr)
 
             /*按行输出結果*/
             for (int i = 1; i < row; i++)
             {
-                result_row = mysql_fetch_row(res_ptr);
-                for (int j = 0; j < column; j++)
-                    /*
-                    struct Question
-                    {
-                        std::string id;
-                        std::string name;
-                        std::string dir;    //标识题目对应的目录，包括了题目的描述、题目的代码框架、题目的测试用例
-                        std::string star;   //标识难度
-                        std::string desc;   //题目的描述
-                        std::string header_cpp;     //题目代码框架中的代码
-                        std::string tail_cpp;       //题目的测试用例代码
-                    };  
-                    */
-                    Question tmp;
-                    std::cout << tmp << std::endl;
-                    /*
-                    tmp.id = result_row[0];
-                    tmp.name = result_row[0];
-                    tmp.dir = result_row[0];
-                    tmp.star = result_row[0];
-                    tmp.desc = result_row[0];
-                    tmp.header_cpp = result_row[0];
-                    tmp.tail_cpp = result_row[0];
-                    */
+                result_row = mysql_fetch_row(res_ptr); //获取数据 
+                /*
+                struct Question
+                {
+                    std::string id;
+                    std::string name;
+                    std::string dir;    //标识题目对应的目录，包括了题目的描述、题目的代码框架、题目的测试用例
+                    std::string star;   //标识难度
+                    std::string desc;   //题目的描述
+                    std::string header_cpp;     //题目代码框架中的代码
+                    std::string tail_cpp;       //题目的测试用例代码
+                };  
+                */
+                Question tmp;
+                tmp.id = result_row[0];
+                tmp.name = result_row[1];
+                tmp.dir = result_row[2];
+                tmp.star = result_row[3];
+                tmp.desc = result_row[4];
+                tmp.header_cpp = result_row[5];
+                tmp.tail_cpp = result_row[6];
+                questions.push_back(tmp);
             }
         }
         return true;
