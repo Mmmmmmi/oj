@@ -19,7 +19,7 @@ public:
             ctemplate::TemplateDictionary* table_dict = dict.AddSectionDictionary("question");
             table_dict->SetValue("id", question.id);
             table_dict->SetValue("name", question.name);
-            table_dict->SetValue("star", question.star);
+            table_dict->SetValue("level", question.level);
         }
         ctemplate::Template* tpl;
         tpl = ctemplate::Template::GetTemplate("./template/all_questions/all_questions.html", ctemplate::DO_NOT_STRIP);
@@ -31,7 +31,7 @@ public:
         ctemplate::TemplateDictionary dict("question");
         dict.SetValue("id", question.id);
         dict.SetValue("name", question.name);
-        dict.SetValue("star", question.star);
+        dict.SetValue("level", question.level);
         dict.SetValue("desc", question.desc);
         dict.SetValue("header", question.header_cpp);
         ctemplate::Template* tpl;

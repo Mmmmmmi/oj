@@ -5,32 +5,9 @@
 #include <map>
 #include <fstream>
 #include "util.hpp"
-/*
-    
-   基于文件的方式完成题目的存储
-   约定每一个题目对应一个目录，目录的名字就是题目的ID
-   目录里面包含以下几个文件
-        1. header.cpp 代码框架
-        2. tail.cpp 代码测试用例
-        3. desc.txt 题目详细描述
-   除此之外 再搞一个oj_config.cfg 文件 作为一个总的文件入口
-   这个文件是一个文本文件
-   这个文件每一行对应一个需要被服务器加载起来的题目
-   这行包括一下信息：题目ID 题目名字  题目难度  题目对应目录
-*/
+#include "question_model.hpp"
+#include "question_db.hpp"
 
-
-
-struct Question
-{
-    std::string id;
-    std::string name;
-    std::string dir;    //标识题目对应的目录，包括了题目的描述、题目的代码框架、题目的测试用例
-    std::string star;   //标识难度
-    std::string desc;   //题目的描述
-    std::string header_cpp;     //题目代码框架中的代码
-    std::string tail_cpp;       //题目的测试用例代码
-}; 
 
 class OjModel 
 {
@@ -39,6 +16,7 @@ public:
     //将文件加载到hash 表中
     bool Load()
     {
+        /*
         //1. 先打开oj_cfg文件
         std::ifstream file("./oj_data/oj_config.cfg");
         if (!file.is_open()) {
@@ -58,7 +36,7 @@ public:
             Question q;
             q.id = tokens[0];
             q.name = tokens[1];
-            q.star = tokens[2];
+            q.level = tokens[2];
             q.dir = tokens[3];
             FileUtil::Read(q.dir + "/desc.txt", q.desc);
             FileUtil::Read(q.dir + "/header.cpp", q.header_cpp);
@@ -69,6 +47,23 @@ public:
         file.close();
         LOG(INFO) << "Load " << _model.size() << " Questions\n";
         return true;
+        */
+        std::vector<Question> ret;
+        std::string select_str = "select * from oj_questions";
+        bool retflag = QuestionDb().QuerySelect(select_str, ret);
+        if (retflag == true)
+        {
+            for (Question iterm : ret)
+            {
+                _model[iterm.id] = iterm;
+            }
+            LOG(INFO) << "Load Questions Success : Load " << _model.size() << " Questions" << std::endl;
+            return true;
+        }
+        else {
+            LOG(ERROR) << "Load Questions Fail" << std::endl;
+            return false;
+        }
     }
     bool GetAllQuestions(std::vector<Question>& questions) const
     {
@@ -87,10 +82,10 @@ public:
             return false;
         }
         q = pos->second;
+        std::cout << q.desc << std::endl;
         return true;
     }
 private: 
     //hash 表中  ID 是键   Question 是值
     std::map<std::string, Question> _model;
 };
-
