@@ -60,7 +60,6 @@ function get_linux_distro()
 function start_server()
 {
     echo "---------- start server begin ----------"
-    make clean
     if [ -f "./oj_server" ];then
         echo "clean old file"
         make clean
