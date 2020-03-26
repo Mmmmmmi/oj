@@ -49,10 +49,9 @@
         apt-get install boost-devel
         apt-get install boost-doc
 
-- 源码已下载至 `lib` 中，可自行编译安装， `httplib` 只需要头文件即可，项目中已包含可不必下载。其他库已链接静态库，但是不同平台需要的库不同，需要在 `lib` 文件夹下将对应平台的 `.a` 文件，挪到 `lib` 下，也就是从 `Centos/Debian` 中将 `./a` 挪出来即可，Mac 的库也加了进去，但是目前 `jsoncpp`，还需要动态库，可以直接用 `brew` 安装
-
 ## **服务端运行**
-   `./oj_server`
+   `chmod 755 ./start`
+   `./start`
 ## **查看端口状态**
    `netstat -anp | grep 9092`
 ## **客户端运行**
