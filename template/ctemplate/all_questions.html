@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
+
+    <!-- CSS
+	============================================ -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="assets/css/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/flaticon.css">
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="assets/css/plugins/slick.css">
+
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container">
+            <div class="row justify-content-between align-items-center">
+                <div class="col">
+                    <div class="header-logo">
+                        <a href="index.html"><img src="assets/images/icons/header.png" alt="Logo"></a>
+                    </div>
+                </div>
+                <div class="col-auto d-lg-none d-flex align-items-center">
+                    <button class="offcanvas-toggle">
+                        <span></span>
+                    </button>
+                </div>
+                <nav id="main-menu" class="main-menu col-lg-auto order-lg-2">
+                    <ul>
+                        <li class="has-children"><a href="index.html">Questions</a>
+                            <ul class="sub-menu">
+                                <li><a href="index.html">All Questions</a></li>
+                                <li><a href="index.html">My Questions</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-children"><a href="index.html">What</a>
+                            <ul class="sub-menu">
+                                <li><a href="index.html">One</a></li>
+                                <li><a href="index.html">Two</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!--Offcanvas Section Start-->
+    <div id="offcanvas" class="offcanvas-section">
+        <button class="offcanvas-close" data-target="#offcanvas">&times;</button>
+        <div class="offcanvas-wrap">
+            <div class="inner">
+                <div class="offcanvas-menu">
+                    <nav>
+                        <ul>
+                            <li class="has-children"><a href="index.html">Questions</a>
+                                <ul class="sub-menu">
+                                    <li><a href="index.html">All Questions</a></li>
+                                    <li><a href="index.html">My Questions</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-children"><a href="index.html">What</a>
+                                <ul class="sub-menu">
+                                    <li><a href="index.html">One</a></li>
+                                    <li><a href="index.html">Two</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Offcanvas Section End-->
+    <!--OffCanvas Overlay-->
+    <div class="offcanvas-overlay"></div>
+
+    <!-- Page Heading Section Start -->
+    <div class="page-heading-section section bg-parallax" data-bg-image="assets/images/bg/bg-1.jpg" data-overlay="25">
+        <div class="container">
+            <div class="page-heading-content text-center">
+                <h3 class="title">My OJ</h3>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- Page Heading Section End -->
+
+    <style>
+        .section-padding {
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+    </style>
+
+    <!-- Recent Jobs Start -->
+    <div class="section section-padding">
+        <div class="container">
+            <section class="my-5 pt-5">
+                <div class="container">
+                    <!-- Tables  -->
+                    <div class="row mb-5" id="tables">
+                        <div class="col-sm-12">
+                            <div class="mt-3 mb-5">
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Name</th>
+                                            <th>level</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#question}}
+                                        <tr>
+                                            <td>{{id}}</td>
+                                            <td><a href="/question/{{id}}">{{name}}</a></td>
+                                            <td><span class="badge badge-{{level}}">{{level}}</span></td>
+                                            <!-- badge-hard 困难 -->
+                                            <!-- badge-medium 困难 -->
+                                            <!-- badge-easy 困难 -->
+                                        </tr>
+                                        {{/question}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+    <!-- Recent Jobs End -->
+
+
+    <!-- JS
+============================================ -->
+
+    <!-- Google Map API JS -->
+    <script src='https://ditu.google.cn/maps/api/js?key=AIzaSyC3nDHy1dARR-Pa_2jjPCjvsOR4bcILYsM'></script>
+
+    <!-- Vendors JS -->
+    <script src="assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="assets/js/vendor/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugins JS -->
+    <script src="assets/js/plugins/slick.min.js"></script>
+    <script src="assets/js/plugins/jquery.waypoints.min.js"></script>
+    <script src="assets/js/plugins/jquery.counterup.min.js"></script>
+    <script src="assets/js/plugins/jquery.parallax.js"></script>
+    <script src="assets/js/plugins/jquery.ajaxchimp.min.js"></script>
+    <script src="assets/js/plugins/ion.rangeSlider.min.js"></script>
+    <script src="assets/js/plugins/jquery.scrollUp.min.js"></script>
+
+    <!-- Main Activation JS -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/app.js"></script>
+
+</body>
+
+</html>

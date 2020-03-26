@@ -1,6 +1,9 @@
 #pragma once
 #include "include/ctemplate/template.h"
 #include "oj_model.hpp"
+
+const std::string TEMPLATEBASE = "./template/ctemplate/";
+
 class OjView
 {
 public:
@@ -17,12 +20,13 @@ public:
         ctemplate::TemplateDictionary dict("all_questions");
         for (const auto& question : all_questions) {
             ctemplate::TemplateDictionary* table_dict = dict.AddSectionDictionary("question");
+            table_dict->SetValue("questions_num", "" + all_questions.size());
             table_dict->SetValue("id", question.id);
             table_dict->SetValue("name", question.name);
             table_dict->SetValue("level", question.level);
         }
         ctemplate::Template* tpl;
-        tpl = ctemplate::Template::GetTemplate("./template/all_questions/all_questions.html", ctemplate::DO_NOT_STRIP);
+        tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "all_questions.html", ctemplate::DO_NOT_STRIP);
         tpl->Expand(&html, &dict);
     }
 
@@ -35,7 +39,7 @@ public:
         dict.SetValue("desc", question.desc);
         dict.SetValue("header", question.header_cpp);
         ctemplate::Template* tpl;
-        tpl = ctemplate::Template::GetTemplate("./template/question/question.html", ctemplate::DO_NOT_STRIP);
+        tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "question.html", ctemplate::DO_NOT_STRIP);
         tpl->Expand(&html, &dict);
     }
 
@@ -45,7 +49,7 @@ public:
         dict.SetValue("stdout", str_stdout);
         dict.SetValue("reason", reason);
         ctemplate::Template* tpl;
-        tpl = ctemplate::Template::GetTemplate("./template/result/result.html", ctemplate::DO_NOT_STRIP);
+        tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "result.html", ctemplate::DO_NOT_STRIP);
         tpl->Expand(&html, &dict);
     }
 

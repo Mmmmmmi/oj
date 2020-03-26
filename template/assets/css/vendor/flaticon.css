@@ -1,0 +1,73 @@
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 04/11/2019 04:51
+  	*/
+
+@font-face {
+    font-family: "Flaticon";
+    font-weight: normal;
+    font-style: normal;
+
+    src: url("../../fonts/Flaticon.eot");
+    src: url("../../fonts/Flaticon.eot?#iefix") format("embedded-opentype"),
+    url("../../fonts/Flaticon.woff2") format("woff2"),
+    url("../../fonts/Flaticon.woff") format("woff"),
+    url("../../fonts/Flaticon.ttf") format("truetype"),
+    url("../../fonts/Flaticon.svg#Flaticon") format("svg");
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    @font-face {
+        font-family: "Flaticon";
+
+        src: url("./Flaticon.svg#Flaticon") format("svg");
+    }
+}
+
+[class^="flaticon-"]:before,
+[class*=" flaticon-"]:before,
+[class^="flaticon-"]:after,
+[class*=" flaticon-"]:after {
+    font-family: Flaticon;
+    font-style: normal;
+}
+
+.flaticon-finance:before {
+    content: "\f100";
+}
+
+.flaticon-networking:before {
+    content: "\f101";
+}
+
+.flaticon-multimedia:before {
+    content: "\f102";
+}
+
+.flaticon-photography:before {
+    content: "\f103";
+}
+
+.flaticon-development:before {
+    content: "\f104";
+}
+
+.flaticon-design:before {
+    content: "\f105";
+}
+
+.flaticon-education:before {
+    content: "\f106";
+}
+
+.flaticon-research:before {
+    content: "\f107";
+}
+
+.flaticon-medical:before {
+    content: "\f108";
+}
+
+.flaticon-government:before {
+    content: "\f109";
+}

@@ -8,6 +8,15 @@
 #include "question_model.hpp"
 #include "question_db.hpp"
 
+struct lesser
+{
+    bool operator()(const std::string left, const std::string right) const
+    {
+        size_t l = atoi(left.c_str());
+        size_t r = atoi(right.c_str());
+        return l < r;
+    }
+};
 
 class OjModel 
 {
@@ -82,10 +91,9 @@ public:
             return false;
         }
         q = pos->second;
-        std::cout << q.desc << std::endl;
         return true;
     }
 private: 
     //hash 表中  ID 是键   Question 是值
-    std::map<std::string, Question> _model;
+    std::map<std::string, Question, lesser> _model;
 };
