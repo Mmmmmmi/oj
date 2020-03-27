@@ -32,6 +32,14 @@ int main()
                 OjView::RenderQuestion(question, html);
                 resp.set_content(html, "text/html");
                 });
+    
+    server.Get(R"(/add_question(\.html)?)", [&model] (const Request& req, Response& resp) {
+                //LOG(INFO) << req.matches[0].str() << ", " << req.matches[1].str() << "\n";
+                Question question;
+                std::string html;
+                OjView::RenderAddQuestion(question, html);
+                resp.set_content(html, "text/html");
+                });
 
     server.Post(R"(/compile/(\d+)(\.html)?)", [&model] (const Request& req, Response& resp) {
                 //此处代码与compile_server 相似

@@ -43,6 +43,19 @@ public:
         tpl->Expand(&html, &dict);
     }
 
+    static void RenderAddQuestion(const Question& question, std::string& html)
+    {
+        ctemplate::TemplateDictionary dict("question");
+        dict.SetValue("id", question.id);
+        dict.SetValue("name", question.name);
+        dict.SetValue("level", question.level);
+        dict.SetValue("desc", question.desc);
+        dict.SetValue("header", question.header_cpp);
+        ctemplate::Template* tpl;
+        tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "add_question.html", ctemplate::DO_NOT_STRIP);
+        tpl->Expand(&html, &dict);
+    }
+
     static void RenderResult(const std::string& str_stdout, const std::string& reason, std::string& html)
     {
         ctemplate::TemplateDictionary dict("result");

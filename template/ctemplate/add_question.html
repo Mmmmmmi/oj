@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>My OJ - {{name}}</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/icons/g11.png">
+
+    <!-- CSS
+	============================================ -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/css/vendor/bootstrap.min.css">
+
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="/assets/css/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/vendor/flaticon.css">
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="/assets/css/plugins/slick.css">
+
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="container">
+            <div class="row justify-content-between align-items-center">
+                <div class="col">
+                    <div class="header-logo">
+                        <a href="/index.html"><img src="/assets/images/icons/header.png" alt="Logo"></a>
+                    </div>
+                </div>
+                <div class="col-auto d-lg-none d-flex align-items-center">
+                    <button class="offcanvas-toggle">
+                        <span></span>
+                    </button>
+                </div>
+                <nav id="main-menu" class="main-menu col-lg-auto order-lg-2">
+                    <ul>
+                        <li class="has-children"><a href="/index.html">Questions</a>
+                            <ul class="sub-menu">
+                                <li><a href="/index.html">All Questions</a></li>
+                                <li><a href="/add_question.html">Add Questions</a></li>
+                                <li><a href="/index.html">My Questions</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-children"><a href="/index.html">What</a>
+                            <ul class="sub-menu">
+                                <li><a href="/index.html">One</a></li>
+                                <li><a href="/index.html">Two</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!--Offcanvas Section Start-->
+    <div id="offcanvas" class="offcanvas-section">
+        <button class="offcanvas-close" data-target="#offcanvas">&times;</button>
+        <div class="offcanvas-wrap">
+            <div class="inner">
+                <div class="offcanvas-menu">
+                    <nav>
+                        <ul>
+                            <li class="has-children"><a href="/index.html">Questions</a>
+                                <ul class="sub-menu">
+                                    <li><a href="/index.html">All Questions</a></li>
+                                    <li><a href="/add_question.html">Add Questions</a></li>
+                                    <li><a href="/index.html">My Questions</a></li>
+                                </ul>
+                            </li>
+                            <li class="has-children"><a href="/index.html">What</a>
+                                <ul class="sub-menu">
+                                    <li><a href="/index.html">One</a></li>
+                                    <li><a href="/index.html">Two</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Offcanvas Section End-->
+    <!--OffCanvas Overlay-->
+    <div class="offcanvas-overlay"></div>
+
+    <!-- Page Heading Section Start -->
+    <div class="page-heading-section section bg-parallax" data-bg-image="/assets/images/bg/bg-1.png" data-overlay="25">
+        <div class="container">
+            <div class="page-heading-content text-center">
+                <h3 class="title">My OJ</h3>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/add_question">Add Question</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- Page Heading Section End -->
+
+    <style>
+        .section-padding {
+            padding-top: 0px;
+            padding-bottom: 0px;
+        }
+    </style>
+
+    <!-- Recent Jobs Start -->
+    <div class="section section-padding">
+        <div class="container">
+            <section class="my-5 pt-5">
+                <div class="container">
+                    <div class="form-group">
+                        <h6>id</h6>
+                        <input type="text" name="id" />
+                        <h6>name</h6>
+                        <input type="text" name="name" />
+                        <h6>level - [easy, medium, hard]</h6>
+                        <input type="text" name="level" />
+                        <h6>desc</h6>
+                        <div  id="editor0" style="min-height:400px"><textarea class="form-control" id="" name="desc" rows=30 cols=100></textarea>
+                        </div>
+                        <h6>header</h6>
+                        <div  id="editor1" style="min-height:400px"><textarea class="form-control" id="" name="header" rows=30 cols=100></textarea>
+                        </div>
+                        <h6>tail</h6>
+                        <div  id="editor2" style="min-height:400px"><textarea class="form-control" id="" name="tail" rows=30 cols=100></textarea>
+                        </div>
+                        <input type="button" id="submit" class="btn btn-primary" value="提交" onclick="run({{id}})">
+                    </div>
+                    <div class="jumbotron" id="output"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- Recent Jobs End -->
+
+
+    <!-- JS
+============================================ -->
+
+    <!-- Vendors JS -->
+    <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="/assets/js/vendor/jquery-3.4.1.min.js"></script>
+    <script src="/assets/js/vendor/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugins JS -->
+    <script src="/assets/js/plugins/slick.min.js"></script>
+    <script src="/assets/js/plugins/jquery.waypoints.min.js"></script>
+    <script src="/assets/js/plugins/jquery.counterup.min.js"></script>
+    <script src="/assets/js/plugins/jquery.parallax.js"></script>
+    <script src="/assets/js/plugins/jquery.ajaxchimp.min.js"></script>
+    <script src="/assets/js/plugins/ion.rangeSlider.min.js"></script>
+    <script src="/assets/js/plugins/jquery.scrollUp.min.js"></script>
+
+    <!-- Main Activation JS -->
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/app.js"></script>
+
+    <script src="/assets/js/plugins/popper.min.js"></script>
+    <script src="/assets/js/vendor/bootstrap.min.js"></script>
+    <!-- ace -->
+    <script src="https://cdn.bootcss.com/ace/1.2.9/ace.js"></script>
+    <script src="https://cdn.bootcss.com/ace/1.2.9/ext-language_tools.js"></script>
+    <script>
+        for (var i = 0; i < 3; i++)
+        {
+
+            var editname = "editor" + i;
+            var editor = ace.edit(editname);
+            editor.setOptions({
+                enableBasicAutocompletion: true,
+                enableSnippets: true,
+                enableLiveAutocompletion: true
+            });
+            editor.setTheme("ace/theme/terminal");      // 主题
+            editor.session.setMode("ace/mode/c_cpp");   // 语言
+            editor.setFontSize(18);                     // 字体大小
+            editor.setOption("wrap", "free")            // 自动换行
+            ace.require("ace/ext/language_tools");      // 启动提示菜单
+            editor.getSession().setUseWrapMode(true);   // 代码可折叠
+            editor.resize();                            //编辑器自动控制大小;
+        }
+        function run(question_id) {
+            var code = editor.getValue()
+            htmlobj=$.ajax({
+            url:"/compile/" + question_id,
+            type:"POST",
+            data: {"code": code},
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            async:false,
+            });
+            // alert(htmlobj.responseText)
+            $("#output").html(htmlobj.responseText);
+        }
+    </script>
+
+</body>
+
+</html>
