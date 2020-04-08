@@ -53,6 +53,6 @@
    `chmod 755 ./start`
    `./start`
 ## **查看端口状态**
-   `netstat -anp | grep 9092`
+   `netstat -anp | grep 12121`
 ## **客户端运行**
-   `ip地址:9092/all_questions`
+   `ip地址:12121/all_questions`
