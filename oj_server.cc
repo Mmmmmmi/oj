@@ -41,6 +41,22 @@ int main()
                 resp.set_content(html, "text/html");
                 });
 
+    server.Get(R"(/add_question_view(\.html)?)", [&model] (const Request& req, Response& resp) {
+                //LOG(INFO) << req.matches[0].str() << ", " << req.matches[1].str() << "\n";
+                Question question;
+                std::string html;
+                OjView::RenderAddQuestion(question, html);
+                resp.set_content(html, "text/html");
+                });
+
+    server.Get(R"(/add_question_commit(\.html)?)", [&model] (const Request& req, Response& resp) {
+                //LOG(INFO) << req.matches[0].str() << ", " << req.matches[1].str() << "\n";
+                Question question;
+                std::string html;
+                OjView::RenderAddQuestion(question, html);
+                resp.set_content(html, "text/html");
+                });
+
     server.Post(R"(/compile/(\d+)(\.html)?)", [&model] (const Request& req, Response& resp) {
                 //此处代码与compile_server 相似
                 //1. 先根据id 获取到题目信息
@@ -53,7 +69,7 @@ int main()
                 //3. 构造json 结构的参数
                 Json::Value req_json;
                 //真实需要的代码   用户提交的 + 题目测试用例
-                req_json["code"] = user_code + question.tail_cpp;
+                req_json["code"] = user_code + question.tail;
                 Json::Value resp_json;   //从resp_json 放到响应中
                 //4. 调用编译模块 编译
                 Compiler::CompileAndRun(req_json, resp_json);

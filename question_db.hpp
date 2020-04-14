@@ -91,17 +91,17 @@ public:
                     std::string dir;    //标识题目对应的目录，包括了题目的描述、题目的代码框架、题目的测试用例
                     std::string level;   //标识难度
                     std::string desc;   //题目的描述
-                    std::string header_cpp;     //题目代码框架中的代码
-                    std::string tail_cpp;       //题目的测试用例代码
+                    std::string header;     //题目代码框架中的代码
+                    std::string tail;       //题目的测试用例代码
                 };  
                 */
                 Question tmp;
-                tmp.id = result_row[0];
+                tmp.id = std::to_string(i);
                 tmp.name = result_row[1];
                 tmp.level = result_row[2];
                 tmp.desc = result_row[3];
-                tmp.header_cpp = result_row[4];
-                tmp.tail_cpp = result_row[5];
+                tmp.header = result_row[4];
+                tmp.tail = result_row[5];
                 questions.push_back(tmp);
             }
         }

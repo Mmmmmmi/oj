@@ -48,8 +48,8 @@ public:
             q.level = tokens[2];
             q.dir = tokens[3];
             FileUtil::Read(q.dir + "/desc.txt", q.desc);
-            FileUtil::Read(q.dir + "/header.cpp", q.header_cpp);
-            FileUtil::Read(q.dir + "/tail.cpp", q.tail_cpp);
+            FileUtil::Read(q.dir + "/header.cpp", q.header);
+            FileUtil::Read(q.dir + "/tail.cpp", q.tail);
             //[] 如果key 不存在  就创建新的  如果存在 就查找到对应的
             _model[q.id] = q;
         }

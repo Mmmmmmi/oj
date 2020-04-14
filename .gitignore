@@ -9,3 +9,4 @@ lib/libctemplate.a
 test.cc
 *.json
 .DS_Store
+note.md

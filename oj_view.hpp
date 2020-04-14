@@ -37,7 +37,7 @@ public:
         dict.SetValue("name", question.name);
         dict.SetValue("level", question.level);
         dict.SetValue("desc", question.desc);
-        dict.SetValue("header", question.header_cpp);
+        dict.SetValue("header", question.header);
         ctemplate::Template* tpl;
         tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "question.html", ctemplate::DO_NOT_STRIP);
         tpl->Expand(&html, &dict);
@@ -46,15 +46,37 @@ public:
     static void RenderAddQuestion(const Question& question, std::string& html)
     {
         ctemplate::TemplateDictionary dict("question");
-        dict.SetValue("id", question.id);
         dict.SetValue("name", question.name);
         dict.SetValue("level", question.level);
         dict.SetValue("desc", question.desc);
-        dict.SetValue("header", question.header_cpp);
+        dict.SetValue("header", question.header);
+        dict.SetValue("tail", question.tail);
         ctemplate::Template* tpl;
         tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "add_question.html", ctemplate::DO_NOT_STRIP);
         tpl->Expand(&html, &dict);
     }
+
+    
+    static void RenderAddQuestionView(const Question& question, std::string& html)
+    {
+        ctemplate::TemplateDictionary dict("result");
+        dict.SetValue("stdout", str_stdout);
+        dict.SetValue("reason", reason);
+        ctemplate::Template* tpl;
+        tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "result.html", ctemplate::DO_NOT_STRIP);
+        tpl->Expand(&html, &dict)
+    }
+        
+    static void RenderAddQuestionCommit(const Question& question, std::string& html)
+    {
+        ctemplate::TemplateDictionary dict("result");
+        dict.SetValue("stdout", str_stdout);
+        dict.SetValue("reason", reason);
+        ctemplate::Template* tpl;
+        tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "result.html", ctemplate::DO_NOT_STRIP);
+        tpl->Expand(&html, &dict)
+    }
+
 
     static void RenderResult(const std::string& str_stdout, const std::string& reason, std::string& html)
     {

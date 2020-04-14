@@ -123,22 +123,53 @@
             <section class="my-5 pt-5">
                 <div class="container">
                     <div class="form-group">
-                        <h6>id</h6>
-                        <input type="text" name="id" />
+                        <!-- question name -->
                         <h6>name</h6>
                         <input type="text" name="name" />
-                        <h6>level - [easy, medium, hard]</h6>
-                        <input type="text" name="level" />
+                        
+                        <!-- question type -->
+                        <h6>need-complimer
+                            <div>
+                                <input name="need-complimer" type="radio" value="true">
+                                <span class="badge badge-easy">true</span>
+
+                                <input name="need-complimer" type="radio" value="false">
+                                <span class="badge badge-easy">false</span>
+                            </div>
+                        </h6>
+
+                        <!-- question level -->
+                        <h6>level
+                            <div>
+                                <input name="level" type="radio" value="easy">
+                                <span class="badge badge-easy">easy</span>
+
+                                <input name="level" type="radio" value="medium">
+                                <span class="badge badge-medium">medium</span>
+
+                                <input name="level" type="radio" value="hard">
+                                <span class="badge badge-hard">hard</span>
+                            </div>
+                        </h6>
+
+                        <!-- question desc -->
                         <h6>desc</h6>
                         <div  id="editor0" style="min-height:400px"><textarea class="form-control" id="" name="desc" rows=30 cols=100></textarea>
                         </div>
+                        <!-- question header -->
                         <h6>header</h6>
                         <div  id="editor1" style="min-height:400px"><textarea class="form-control" id="" name="header" rows=30 cols=100></textarea>
                         </div>
+                        <!-- question tail -->
                         <h6>tail</h6>
                         <div  id="editor2" style="min-height:400px"><textarea class="form-control" id="" name="tail" rows=30 cols=100></textarea>
                         </div>
-                        <input type="button" id="submit" class="btn btn-primary" value="提交" onclick="run({{id}})">
+                        <!-- question header-test -->
+                        <h6>header test</h6>
+                        <div  id="editor3" style="min-height:400px"><textarea class="form-control" id="" name="header_test" rows=30 cols=100></textarea>
+                        </div>
+                        <input type="button" id="submit" class="btn btn-primary" value="review" onclick="view()">
+                        <input type="button" id="submit" class="btn btn-primary" value="commit" onclick="commit()">
                     </div>
                     <div class="jumbotron" id="output"></div>
                 </div>
@@ -175,9 +206,8 @@
     <script src="https://cdn.bootcss.com/ace/1.2.9/ace.js"></script>
     <script src="https://cdn.bootcss.com/ace/1.2.9/ext-language_tools.js"></script>
     <script>
-        for (var i = 0; i < 3; i++)
+        for (var i = 0; i < 4; i++)
         {
-
             var editname = "editor" + i;
             var editor = ace.edit(editname);
             editor.setOptions({
@@ -205,8 +235,31 @@
             // alert(htmlobj.responseText)
             $("#output").html(htmlobj.responseText);
         }
+        function view() {
+            var code = editor.getValue()
+            htmlobj=$.ajax({
+            url:"/compile/" + question_id,
+            type:"POST",
+            data: {"code": code},
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            async:false,
+            });
+            // alert(htmlobj.responseText)
+            $("#output").html(htmlobj.responseText);
+        }
+        function commit() {
+            var code = editor.getValue()
+            htmlobj=$.ajax({
+            url:"/compile/" + question_id,
+            type:"POST",
+            data: {"code": code},
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+            async:false,
+            });
+            // alert(htmlobj.responseText)
+            $("#output").html(htmlobj.responseText);
+        }
     </script>
-
 </body>
 
 </html>
