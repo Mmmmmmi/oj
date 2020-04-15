@@ -5,6 +5,7 @@ oj_server
 example.sh
 test
 lib/*.a
+lib/*.dylib
 test.cc
 *.json
 .DS_Store
