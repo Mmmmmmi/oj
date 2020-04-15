@@ -11,3 +11,4 @@ test.cc
 .DS_Store
 note.md
 buildscons/*
+lib/Mac/buildscons/linux-gcc-11.0.3/.sconsign.dbm.dblite
