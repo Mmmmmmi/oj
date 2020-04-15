@@ -4,8 +4,7 @@ temp_files/*
 oj_server
 example.sh
 test
-lib/libjsoncpp.a
-lib/libctemplate.a
+lib/*.a
 test.cc
 *.json
 .DS_Store
