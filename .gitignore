@@ -10,3 +10,4 @@ test.cc
 *.json
 .DS_Store
 note.md
+buildscons/*

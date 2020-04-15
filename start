@@ -75,7 +75,8 @@ function start_server()
 function start_mac_server()
 {
     echo "cp ./lib/Mac/* ./lib/"
-    cp ./lib/Mac/* ./lib/
+    cp ./lib/Mac/*.a ./lib/
+    cp -R ./lib/Mac/buildscons ./
     start_server
 }
 

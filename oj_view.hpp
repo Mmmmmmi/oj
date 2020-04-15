@@ -59,22 +59,26 @@ public:
     
     static void RenderAddQuestionView(const Question& question, std::string& html)
     {
+        std::string str_stdout = "";
+        std::string reason= "";
         ctemplate::TemplateDictionary dict("result");
         dict.SetValue("stdout", str_stdout);
         dict.SetValue("reason", reason);
         ctemplate::Template* tpl;
         tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "result.html", ctemplate::DO_NOT_STRIP);
-        tpl->Expand(&html, &dict)
+        tpl->Expand(&html, &dict);
     }
         
     static void RenderAddQuestionCommit(const Question& question, std::string& html)
     {
+        std::string str_stdout = "";
+        std::string reason= "";
         ctemplate::TemplateDictionary dict("result");
         dict.SetValue("stdout", str_stdout);
         dict.SetValue("reason", reason);
         ctemplate::Template* tpl;
         tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "result.html", ctemplate::DO_NOT_STRIP);
-        tpl->Expand(&html, &dict)
+        tpl->Expand(&html, &dict);
     }
 
 
