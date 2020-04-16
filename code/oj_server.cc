@@ -1,3 +1,11 @@
+/*******************************************************************************
+*   @Author          : Mmmmmmi
+*   @CreateTime      : 2020-04-14 23:18:12
+*   @LastEditors: Mmmmmmi
+*   @LastEditTime: 2020-04-16 11:46:55
+*   @FilePath        : /oj/oj_server.cc
+*   @Description     : 
+********************************************************************************/
 #include "include/json/json.h"
 #include "include/httplib.h"
 #include "util.hpp"
@@ -41,7 +49,7 @@ int main()
                 resp.set_content(html, "text/html");
                 });
 
-    server.Get(R"(/add_question_view(\.html)?)", [&model] (const Request& req, Response& resp) {
+    server.Post(R"(/add_question_view(\.html)?)", [&model] (const Request& req, Response& resp) {
                 //LOG(INFO) << req.matches[0].str() << ", " << req.matches[1].str() << "\n";
                 Question question;
                 std::string html;
@@ -49,7 +57,7 @@ int main()
                 resp.set_content(html, "text/html");
                 });
 
-    server.Get(R"(/add_question_commit(\.html)?)", [&model] (const Request& req, Response& resp) {
+    server.Post(R"(/add_question_commit(\.html)?)", [&model] (const Request& req, Response& resp) {
                 //LOG(INFO) << req.matches[0].str() << ", " << req.matches[1].str() << "\n";
                 Question question;
                 std::string html;
