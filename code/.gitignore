@@ -1,0 +1,14 @@
+temp_files/*
+.vscode/sftp.json
+.vscode/settings.json
+oj_server
+example.sh
+test
+lib/*.a
+lib/*.dylib
+test.cc
+*.json
+.DS_Store
+note.md
+buildscons/*
+lib/Mac/buildscons/linux-gcc-11.0.3/.sconsign.dbm.dblite
