@@ -2,8 +2,8 @@
 *   @Author          : Mmmmmmi
 *   @CreateTime      : 2020-04-14 23:18:12
 *   @LastEditors: Mmmmmmi
-*   @LastEditTime: 2020-04-16 11:46:55
-*   @FilePath        : /oj/oj_server.cc
+*   @LastEditTime: 2020-04-17 19:56:56
+*   @FilePath        : /oj/code/oj_server.cc
 *   @Description     : 
 ********************************************************************************/
 #include "include/json/json.h"
@@ -50,18 +50,24 @@ int main()
                 });
 
     server.Post(R"(/add_question_view(\.html)?)", [&model] (const Request& req, Response& resp) {
-                //LOG(INFO) << req.matches[0].str() << ", " << req.matches[1].str() << "\n";
-                Question question;
+                //1. 获取用户提交数据
+                std::unordered_map<std::string, std::string>  body_kv;
+                UrlUtil::ParseBody(req.body, body_kv);
+                const std::string& name = body_kv["name"];
+                const std::string& need_compile = body_kv["need_compile"];
+                const std::string& level = body_kv["level"];
+                const std::string& desc = body_kv["desc"];
+                const std::string& header = body_kv["header"];
+                const std::string& tail = body_kv["tail"];
+                const std::string& header_test = body_kv["header_test"];
                 std::string html;
-                OjView::RenderAddQuestion(question, html);
+                OjView::RenderResult(name,need_compile, html);
                 resp.set_content(html, "text/html");
                 });
 
     server.Post(R"(/add_question_commit(\.html)?)", [&model] (const Request& req, Response& resp) {
-                //LOG(INFO) << req.matches[0].str() << ", " << req.matches[1].str() << "\n";
-                Question question;
                 std::string html;
-                OjView::RenderAddQuestion(question, html);
+                OjView::RenderResult("commit_stdout","commit_reason", html);
                 resp.set_content(html, "text/html");
                 });
 

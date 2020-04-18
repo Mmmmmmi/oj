@@ -186,11 +186,11 @@
         function run(question_id) {
             var code = editor.getValue()
             htmlobj=$.ajax({
-            url:"/compile/" + question_id,
-            type:"POST",
-            data: {"code": code},
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            async:false,
+                url:"/compile/" + question_id,
+                type:"POST",
+                data: {"code": code},
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                async:false
             });
             // alert(htmlobj.responseText)
             $("#output").html(htmlobj.responseText);

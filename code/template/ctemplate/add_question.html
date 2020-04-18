@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>My OJ - {{name}}</title>
+    <title>My OJ - Add Question</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -125,15 +125,15 @@
                     <div class="form-group">
                         <!-- question name -->
                         <h6>name</h6>
-                        <input type="text" name="name" />
+                        <input id="name" type="text" name="name" />
                         
                         <!-- question type -->
-                        <h6>need-complimer
+                        <h6>need compile
                             <div>
-                                <input name="need-complimer" type="radio" value="true">
+                                <input id = "need-compile0" name="need-compile" type="radio" value="true">
                                 <span class="badge badge-easy">true</span>
 
-                                <input name="need-complimer" type="radio" value="false">
+                                <input id = "need-compile1" name="need-compile" type="radio" value="false">
                                 <span class="badge badge-easy">false</span>
                             </div>
                         </h6>
@@ -141,13 +141,13 @@
                         <!-- question level -->
                         <h6>level
                             <div>
-                                <input name="level" type="radio" value="easy">
+                                <input id = "level0" name="level" type="radio" value="easy">
                                 <span class="badge badge-easy">easy</span>
 
-                                <input name="level" type="radio" value="medium">
+                                <input id = "level1" name="level" type="radio" value="medium">
                                 <span class="badge badge-medium">medium</span>
 
-                                <input name="level" type="radio" value="hard">
+                                <input id = "level2" name="level" type="radio" value="hard">
                                 <span class="badge badge-hard">hard</span>
                             </div>
                         </h6>
@@ -226,23 +226,57 @@
         function run(question_id) {
             var code = editor.getValue()
             htmlobj=$.ajax({
-            url:"/compile/" + question_id,
-            type:"POST",
-            data: {"code": code},
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            async:false,
+                url:"/compile/" + question_id,
+                type:"POST",
+                data: {"code": code},
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                async:false
             });
             // alert(htmlobj.responseText)
             $("#output").html(htmlobj.responseText);
         }
         function view() {
-            var code = editor.getValue()
+            //question name
+            var name = document.getElementById("name").value;
+            // question type
+            var need_compile = ""
+            var need_compile_list = document.getElementsByName("need-compile");
+            for (var i = 0; i < need_compile_list.length; i++) {
+                if(need_compile_list[i].checked){
+                    need_compile = need_compile_list[i].value;
+                 }}
+            //question level
+            var level = ""
+            var level_list = document.getElementsByName("level");
+            for (var i = 0; i < level_list.length; i++) {
+                if(level_list[i].checked){
+                    level = level_list[i].value;
+                 }}
+
+            var editname = "editor";
+            var editor = ace.edit(editname + "0");
+            var desc = editor.getValue()
+            var editor = ace.edit(editname + "1");
+            var header = editor.getValue()
+            var editor = ace.edit(editname + "2");
+            var tail = editor.getValue()
+            var editor = ace.edit(editname + "3");
+            var header_test = editor.getValue()
+
             htmlobj=$.ajax({
-            url:"/compile/" + question_id,
-            type:"POST",
-            data: {"code": code},
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            async:false,
+                url:"/add_question_view",
+                type:"POST",
+                data: {
+                    "name": name,
+                    "need_compile": need_compile,
+                    "level": level,
+                    "desc": desc,
+                    "header": header,
+                    "tail": tail,
+                    "header_test": header_test
+                },
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                async:false
             });
             // alert(htmlobj.responseText)
             $("#output").html(htmlobj.responseText);
@@ -250,14 +284,14 @@
         function commit() {
             var code = editor.getValue()
             htmlobj=$.ajax({
-            url:"/compile/" + question_id,
+            url:"/add_question_commit",
             type:"POST",
             data: {"code": code},
             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
             async:false,
             });
             // alert(htmlobj.responseText)
-            $("#output").html(htmlobj.responseText);
+            $("#output").html(htmlobj.responseText);;
         }
     </script>
 </body>
