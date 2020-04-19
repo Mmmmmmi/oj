@@ -171,7 +171,7 @@
                         <input type="button" id="submit" class="btn btn-primary" value="review" onclick="view()">
                         <input type="button" id="submit" class="btn btn-primary" value="commit" onclick="commit()">
                     </div>
-                    <div class="jumbotron" id="output"></div>
+                    <!-- <div class="jumbotron" id="output"></div> -->
                 </div>
             </section>
         </div>
@@ -279,7 +279,9 @@
                 async:false
             });
             // alert(htmlobj.responseText)
-            $("#output").html(htmlobj.responseText);
+            //$("#output").html(htmlobj.responseText);
+            var obj = window.open("about:blank");  
+            obj.document.write(htmlobj.responseText);  
         }
         function commit() {
             var code = editor.getValue()
