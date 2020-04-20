@@ -1,8 +1,8 @@
 /*******************************************************************************
 *   @Author          : Mmmmmmi
 *   @CreateTime      : 2020-04-14 23:18:12
-*   @LastEditors: Mmmmmmi
-*   @LastEditTime: 2020-04-17 19:56:56
+*   @LastEditors     : Mmmmmmi
+*   @LastEditTime    : 2020-04-17 19:56:56
 *   @FilePath        : /oj/code/oj_server.cc
 *   @Description     : 
 ********************************************************************************/
@@ -60,8 +60,16 @@ int main()
                 const std::string& header = body_kv["header"];
                 const std::string& tail = body_kv["tail"];
                 const std::string& header_test = body_kv["header_test"];
+                //2. 对拿到的数据进行编译，把结果返回回去，不进行保存
+                //3. 拼接要处理的代码
+                Json::Value req_json;
+                req_json["code"] = header_test + tail;
+                //4. 编译运行，拿到结果
+                Json::Value resp_json;   //从resp_json 放到响应中
+                Compiler::CompileAndRun(req_json, resp_json); 
+                //5. 返回
                 std::string html;
-                OjView::RenderResult(name,need_compile, html);
+                OjView::RenderResult(resp_json["stdout"].asString(),resp_json["reason"].asString(), html);
                 resp.set_content(html, "text/html");
                 });
 
