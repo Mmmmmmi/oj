@@ -20,7 +20,7 @@ public:
         ctemplate::TemplateDictionary dict("all_questions");
         for (const auto& question : all_questions) {
             ctemplate::TemplateDictionary* table_dict = dict.AddSectionDictionary("question");
-            table_dict->SetValue("questions_num", "" + all_questions.size());
+            //table_dict->SetValue("questions_num", "" + all_questions.size());
             table_dict->SetValue("id", question.id);
             table_dict->SetValue("name", question.name);
             table_dict->SetValue("level", question.level);
@@ -57,24 +57,28 @@ public:
     }
 
     
-    static void RenderAddQuestionView(const Question& question, std::string& html)
+    static void RenderAddQuestionView(const Question& question, const std::string& stdout, const std::string& reason, std::string& html)
     {
-        std::string str_stdout = "";
-        std::string reason= "";
-        ctemplate::TemplateDictionary dict("result");
-        dict.SetValue("stdout", str_stdout);
+        ctemplate::TemplateDictionary dict("view");
+        dict.SetValue("id", question.id);
+        dict.SetValue("name", question.name);
+        dict.SetValue("level", question.level);
+        dict.SetValue("desc", question.desc);
+        dict.SetValue("header", question.header);
+        dict.SetValue("tail", question.tail);
+        dict.SetValue("stdout", stdout);
         dict.SetValue("reason", reason);
         ctemplate::Template* tpl;
-        tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "result.html", ctemplate::DO_NOT_STRIP);
+        tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "add_question_view.html", ctemplate::DO_NOT_STRIP);
         tpl->Expand(&html, &dict);
     }
         
     static void RenderAddQuestionCommit(const Question& question, std::string& html)
     {
-        std::string str_stdout = "";
+        std::string stdout = "";
         std::string reason= "";
         ctemplate::TemplateDictionary dict("result");
-        dict.SetValue("stdout", str_stdout);
+        dict.SetValue("stdout", stdout);
         dict.SetValue("reason", reason);
         ctemplate::Template* tpl;
         tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "result.html", ctemplate::DO_NOT_STRIP);
@@ -82,10 +86,10 @@ public:
     }
 
 
-    static void RenderResult(const std::string& str_stdout, const std::string& reason, std::string& html)
+    static void RenderResult(const std::string& stdout, const std::string& reason, std::string& html)
     {
         ctemplate::TemplateDictionary dict("result");
-        dict.SetValue("stdout", str_stdout);
+        dict.SetValue("stdout", stdout);
         dict.SetValue("reason", reason);
         ctemplate::Template* tpl;
         tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "result.html", ctemplate::DO_NOT_STRIP);

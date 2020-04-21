@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>My OJ - Add Question</title>
+    <title>My OJ - {{name}}</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -64,7 +64,7 @@
         </div>
     </header>
 
-    <!--Offcanvas Section Start-->
+    <!-- Offcanvas Section Start -->
     <div id="offcanvas" class="offcanvas-section">
         <button class="offcanvas-close" data-target="#offcanvas">&times;</button>
         <div class="offcanvas-wrap">
@@ -91,9 +91,9 @@
             </div>
         </div>
     </div>
-    <!--Offcanvas Section End-->
+    <!-- Offcanvas Section End -->
 
-    <!--OffCanvas Overlay-->
+    <!-- OffCanvas Overlay -->
     <div class="offcanvas-overlay"></div>
 
     <!-- Page Heading Section Start -->
@@ -103,7 +103,7 @@
                 <h3 class="title">My OJ</h3>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
-                    <li class="breadcrumb-item"><a href="/add_question">Add Question</a></li>
+                    <li class="breadcrumb-item">Add Question View</a></li>
                 </ol>
             </div>
         </div>
@@ -122,57 +122,22 @@
         <div class="container">
             <section class="my-5 pt-5">
                 <div class="container">
-                    <div class="form-group">
-                        <!-- question name -->
-                        <h6>name</h6>
-                        <input id="name" type="text" name="name" />
-                        
-                        <!-- question type -->
-                        <h6>need compile
-                            <div>
-                                <input id = "need-compile0" name="need-compile" type="radio" value="true">
-                                <span class="badge badge-easy">true</span>
-
-                                <input id = "need-compile1" name="need-compile" type="radio" value="false">
-                                <span class="badge badge-easy">false</span>
-                            </div>
-                        </h6>
-
-                        <!-- question level -->
-                        <h6>level
-                            <div>
-                                <input id = "level0" name="level" type="radio" value="easy">
-                                <span class="badge badge-easy">easy</span>
-
-                                <input id = "level1" name="level" type="radio" value="medium">
-                                <span class="badge badge-medium">medium</span>
-
-                                <input id = "level2" name="level" type="radio" value="hard">
-                                <span class="badge badge-hard">hard</span>
-                            </div>
-                        </h6>
-
-                        <!-- question desc -->
-                        <h6>desc</h6>
-                        <div  id="editor0" style="min-height:400px"><textarea class="form-control" id="" name="desc" rows=30 cols=100></textarea>
-                        </div>
-                        <!-- question header -->
-                        <h6>header</h6>
-                        <div  id="editor1" style="min-height:400px"><textarea class="form-control" id="" name="header" rows=30 cols=100></textarea>
-                        </div>
-                        <!-- question tail -->
-                        <h6>tail</h6>
-                        <div  id="editor2" style="min-height:400px"><textarea class="form-control" id="" name="tail" rows=30 cols=100></textarea>
-                        </div>
-                        <!-- question header-test -->
-                        <h6>header test</h6>
-                        <div  id="editor3" style="min-height:400px">
-                            <textarea class="form-control" id="" name="header_test" rows=31 cols=100></textarea>
-                        </div>
-                        <input type="button" id="submit" class="btn btn-primary" value="review" onclick="view()">
-                        <input type="button" id="submit" class="btn btn-primary" value="commit" onclick="commit()">
+                    <div class="jumbotron">
+                        <h3>{{id}}.{{name}}
+                        <span class="badge badge-{{level}}">{{level}}</span>
+                        </h3>
+                        <div><pre>{{desc}}</pre></div>
                     </div>
-                    <!-- <div class="jumbotron" id="output"></div> -->
+                    <div class="form-group">
+                        <div  id="editor" style="min-height:400px">
+                            <textarea class="form-control" id="" name="code" rows=30 cols=100>{{header}}</textarea>
+                        </div>
+                    </div>
+                    <h3>运行结果</h3>
+                    <div class="jumbotron" id="output">
+                        {{stdout}}
+                        {{reason}}
+                    </div>
                 </div>
             </section>
         </div>
@@ -180,8 +145,7 @@
     <!-- Question End -->
 
 
-    <!-- JS
-============================================ -->
+    <!-- JS ============================================ -->
 
     <!-- Vendors JS -->
     <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
@@ -207,23 +171,21 @@
     <script src="https://cdn.bootcss.com/ace/1.2.9/ace.js"></script>
     <script src="https://cdn.bootcss.com/ace/1.2.9/ext-language_tools.js"></script>
     <script>
-        for (var i = 0; i < 4; i++)
-        {
-            var editname = "editor" + i;
-            var editor = ace.edit(editname);
-            editor.setOptions({
-                enableBasicAutocompletion: true,
-                enableSnippets: true,
-                enableLiveAutocompletion: true
-            });
-            editor.setTheme("ace/theme/terminal");      // 主题
-            editor.session.setMode("ace/mode/c_cpp");   // 语言
-            editor.setFontSize(18);                     // 字体大小
-            editor.setOption("wrap", "free")            // 自动换行
-            ace.require("ace/ext/language_tools");      // 启动提示菜单
-            editor.getSession().setUseWrapMode(true);   // 代码可折叠
-            editor.resize();                            //编辑器自动控制大小;
-        }
+        var editor = ace.edit("editor");
+        editor.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: true
+        });
+        editor.setTheme("ace/theme/terminal");      // 主题
+        editor.session.setMode("ace/mode/c_cpp");   // 语言
+        editor.setFontSize(18);                     // 字体大小
+        editor.setOption("wrap", "free")            // 自动换行
+        ace.require("ace/ext/language_tools");      // 启动提示菜单
+        editor.getSession().setUseWrapMode(true);   // 代码可折叠
+        editor.displayIndentGuides(true);           // 启动参考
+        editor.resize();                            //编辑器自动控制大小
+
         function run(question_id) {
             var code = editor.getValue()
             htmlobj=$.ajax({
@@ -236,67 +198,8 @@
             // alert(htmlobj.responseText)
             $("#output").html(htmlobj.responseText);
         }
-        function view() {
-            //question name
-            var name = document.getElementById("name").value;
-            // question type
-            var need_compile = ""
-            var need_compile_list = document.getElementsByName("need-compile");
-            for (var i = 0; i < need_compile_list.length; i++) {
-                if(need_compile_list[i].checked){
-                    need_compile = need_compile_list[i].value;
-                 }}
-            //question level
-            var level = ""
-            var level_list = document.getElementsByName("level");
-            for (var i = 0; i < level_list.length; i++) {
-                if(level_list[i].checked){
-                    level = level_list[i].value;
-                 }}
-
-            var editname = "editor";
-            var editor = ace.edit(editname + "0");
-            var desc = editor.getValue()
-            var editor = ace.edit(editname + "1");
-            var header = editor.getValue()
-            var editor = ace.edit(editname + "2");
-            var tail = editor.getValue()
-            var editor = ace.edit(editname + "3");
-            var header_test = editor.getValue()
-
-            htmlobj=$.ajax({
-                url:"/add_question_view",
-                type:"POST",
-                data: {
-                    "name": name,
-                    "need_compile": need_compile,
-                    "level": level,
-                    "desc": desc,
-                    "header": header,
-                    "tail": tail,
-                    "header_test": header_test
-                },
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                async:false
-            });
-            // alert(htmlobj.responseText)
-            //$("#output").html(htmlobj.responseText);
-            var obj = window.open("about:blank");  
-            obj.document.write(htmlobj.responseText);  
-        }
-        function commit() {
-            var code = editor.getValue()
-            htmlobj=$.ajax({
-            url:"/add_question_commit",
-            type:"POST",
-            data: {"code": code},
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            async:false,
-            });
-            // alert(htmlobj.responseText)
-            $("#output").html(htmlobj.responseText);;
-        }
     </script>
+
 </body>
 
 </html>

@@ -101,9 +101,9 @@ public:
         //4.  把程序的最终结果进行返回，构造Json对象
         resp_json["error"] = 0;
         resp_json["reason"] = "";
-        std::string str_stdout;
-        FileUtil::Read(StdoutPath(file_name), str_stdout);
-        resp_json["stdout"] = str_stdout;
+        std::string stdout;
+        FileUtil::Read(StdoutPath(file_name), stdout);
+        resp_json["stdout"] = stdout;
 
         std::string str_stderror;
         FileUtil::Read(StderrorPath(file_name), str_stderror);

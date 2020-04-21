@@ -1,2 +1,2 @@
-docker run --name test -p 9527:22 -p 12121:12121 -dit --privileged mydocker:latest
+docker run --name test -p 9527:22 -p 12121:12121 -dit --privileged name:latest
 docker build -t mydocker:latest . -f ./Dockerfile

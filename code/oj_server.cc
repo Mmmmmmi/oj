@@ -20,7 +20,7 @@ int main()
     Server server;
     OjModel model;
     model.Load();
-    server.Get("/(index)?(all_questions)?(\.html)?", [&model] (const Request& req, Response& resp) {
+    server.Get("/(index)?(all_questions)?(.html)?", [&model] (const Request& req, Response& resp) {
                 (void) req;
                 std::vector<Question> all_questions;
                 model.GetAllQuestions(all_questions);
@@ -32,7 +32,7 @@ int main()
     //R"()" C++11 引入的语法，原始字符串(忽略字符串中的转义字符)
     //\d + 正则表达式 
     //用一些特殊符号来标识字符串满足啥样的条件
-    server.Get(R"(/question/(\d+)(\.html)?)", [&model] (const Request& req, Response& resp) {
+    server.Get(R"(/question/(\d+)(.html)?)", [&model] (const Request& req, Response& resp) {
                //LOG(INFO) << req.matches[0].str() << ", " << req.matches[1].str() << "\n";
                 Question question;
                 model.GetQuestion(req.matches[1].str(), question);
@@ -41,7 +41,7 @@ int main()
                 resp.set_content(html, "text/html");
                 });
     
-    server.Get(R"(/add_question(\.html)?)", [&model] (const Request& req, Response& resp) {
+    server.Get(R"(/add_question(.html)?)", [&model] (const Request& req, Response& resp) {
                 //LOG(INFO) << req.matches[0].str() << ", " << req.matches[1].str() << "\n";
                 Question question;
                 std::string html;
@@ -49,37 +49,45 @@ int main()
                 resp.set_content(html, "text/html");
                 });
 
-    server.Post(R"(/add_question_view(\.html)?)", [&model] (const Request& req, Response& resp) {
+    server.Post(R"(/add_question_view(.html)?)", [&model] (const Request& req, Response& resp) {
                 //1. 获取用户提交数据
                 std::unordered_map<std::string, std::string>  body_kv;
                 UrlUtil::ParseBody(req.body, body_kv);
-                const std::string& name = body_kv["name"];
+                Question question;
+                question.id = "0";
+                question.name = body_kv["name"];
+                question.level = body_kv["level"];
+                question.desc = body_kv["desc"];
+                question.header = body_kv["header"];
+                question.tail = body_kv["tail"];
+
+                //3. 如果提交的代码需要编译，则进行编译，否则只预览界面，最后把结果返回回去，不进行保存
                 const std::string& need_compile = body_kv["need_compile"];
-                const std::string& level = body_kv["level"];
-                const std::string& desc = body_kv["desc"];
-                const std::string& header = body_kv["header"];
-                const std::string& tail = body_kv["tail"];
                 const std::string& header_test = body_kv["header_test"];
-                //2. 对拿到的数据进行编译，把结果返回回去，不进行保存
-                //3. 拼接要处理的代码
-                Json::Value req_json;
-                req_json["code"] = header_test + tail;
-                //4. 编译运行，拿到结果
                 Json::Value resp_json;   //从resp_json 放到响应中
-                Compiler::CompileAndRun(req_json, resp_json); 
+                resp_json["stdout"] = "";
+                resp_json["reason"] = "";
+                if (need_compile == "true")
+                {
+                    //3. 拼接要处理的代码
+                    Json::Value req_json;
+                    req_json["code"] = header_test + question.tail;
+                    //4. 编译运行，拿到结果
+                    Compiler::CompileAndRun(req_json, resp_json); 
+                }
                 //5. 返回
                 std::string html;
-                OjView::RenderResult(resp_json["stdout"].asString(),resp_json["reason"].asString(), html);
+                OjView::RenderAddQuestionView(question, resp_json["stdout"].asString(), resp_json["reason"].asString(), html);
                 resp.set_content(html, "text/html");
                 });
 
-    server.Post(R"(/add_question_commit(\.html)?)", [&model] (const Request& req, Response& resp) {
+    server.Post(R"(/add_question_commit(.html)?)", [&model] (const Request& req, Response& resp) {
                 std::string html;
                 OjView::RenderResult("commit_stdout","commit_reason", html);
                 resp.set_content(html, "text/html");
                 });
 
-    server.Post(R"(/compile/(\d+)(\.html)?)", [&model] (const Request& req, Response& resp) {
+    server.Post(R"(/compile/(\d+)(.html)?)", [&model] (const Request& req, Response& resp) {
                 //此处代码与compile_server 相似
                 //1. 先根据id 获取到题目信息
                 Question question;
