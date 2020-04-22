@@ -61,11 +61,11 @@ int main()
                 question.header = body_kv["header"];
                 question.tail = body_kv["tail"];
 
-                //3. 如果提交的代码需要编译，则进行编译，否则只预览界面，最后把结果返回回去，不进行保存
+                //2. 如果提交的代码需要编译，则进行编译，否则只预览界面，最后把结果返回回去，不进行保存
                 const std::string& need_compile = body_kv["need_compile"];
                 const std::string& header_test = body_kv["header_test"];
                 Json::Value resp_json;   //从resp_json 放到响应中
-                resp_json["stdout"] = "";
+                resp_json["std_out"] = "";
                 resp_json["reason"] = "";
                 if (need_compile == "true")
                 {
@@ -77,13 +77,59 @@ int main()
                 }
                 //5. 返回
                 std::string html;
-                OjView::RenderAddQuestionView(question, resp_json["stdout"].asString(), resp_json["reason"].asString(), html);
+                OjView::RenderAddQuestionView(question, resp_json["std_out"].asString(), resp_json["reason"].asString(), html);
                 resp.set_content(html, "text/html");
                 });
 
     server.Post(R"(/add_question_commit(.html)?)", [&model] (const Request& req, Response& resp) {
+                //1. 获取用户提交数据
+                std::unordered_map<std::string, std::string>  body_kv;
+                UrlUtil::ParseBody(req.body, body_kv);
+                Question question;
+                question.id = "0";
+                question.name = body_kv["name"];
+                question.level = body_kv["level"];
+                question.desc = body_kv["desc"];
+                question.header = body_kv["header"];
+                question.tail = body_kv["tail"];
+
+                //2. 如果提交的代码需要编译，则进行编译，否则不编译
+                const std::string& need_compile = body_kv["need_compile"];
+                const std::string& header_test = body_kv["header_test"];
+                Json::Value resp_json;   //从resp_json 放到响应中
+                resp_json["std_out"] = "";
+                resp_json["reason"] = "";
+                bool compile_flag = false;        //编译前，定义为失败
+                bool add_question_flag = false;   //题目添加标志
+                if (need_compile == "true")
+                {
+                    //3. 拼接要处理的代码
+                    Json::Value req_json;
+                    req_json["code"] = header_test + question.tail;
+                    //4. 编译运行，拿到结果
+                    compile_flag = Compiler::CompileAndRun(req_json, resp_json); 
+                }
+                if (need_compile == "false" || (need_compile == "true" && compile_flag == true))
+                {
+                    //5. 如果不需要编译，或者编译运行成功，那么就添加代码，否则不添加
+                    //   至于测试用例通过了多少，这个就不管了
+                    add_question_flag = model.InsertQuestion(question);
+                }
+                //6. 未能执行添加操作
+                //else 
+                //7. 添加成功和添加失败用不同的提示信息
+                std::string add_result = "";
+                if (add_question_flag == true)
+                {
+                    add_result = "Add Question Success";
+                }
+                else 
+                {
+                    add_result = "Add Question Fail";
+                }
+                //8. 返回
                 std::string html;
-                OjView::RenderResult("commit_stdout","commit_reason", html);
+                OjView::RenderAddQuestionCommit(question, add_result, resp_json["std_out"].asString(), resp_json["reason"].asString(), html);
                 resp.set_content(html, "text/html");
                 });
 
@@ -105,7 +151,7 @@ int main()
                 Compiler::CompileAndRun(req_json, resp_json);
                 //5. 根据结构 构造成最后的网页
                 std::string html;
-                OjView::RenderResult(resp_json["stdout"].asString(),resp_json["reason"].asString(), html);
+                OjView::RenderResult(resp_json["std_out"].asString(),resp_json["reason"].asString(), html);
                 resp.set_content(html, "text/html");
                 });
     server.set_base_dir("./template");

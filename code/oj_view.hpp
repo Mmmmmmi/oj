@@ -57,7 +57,7 @@ public:
     }
 
     
-    static void RenderAddQuestionView(const Question& question, const std::string& stdout, const std::string& reason, std::string& html)
+    static void RenderAddQuestionView(const Question& question, const std::string& std_out, const std::string& reason, std::string& html)
     {
         ctemplate::TemplateDictionary dict("view");
         dict.SetValue("id", question.id);
@@ -66,30 +66,35 @@ public:
         dict.SetValue("desc", question.desc);
         dict.SetValue("header", question.header);
         dict.SetValue("tail", question.tail);
-        dict.SetValue("stdout", stdout);
+        dict.SetValue("std_out", std_out);
         dict.SetValue("reason", reason);
         ctemplate::Template* tpl;
         tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "add_question_view.html", ctemplate::DO_NOT_STRIP);
         tpl->Expand(&html, &dict);
     }
         
-    static void RenderAddQuestionCommit(const Question& question, std::string& html)
+    static void RenderAddQuestionCommit(const Question& question, const std::string& add_result, const std::string& std_out, const std::string& reason, std::string& html)
     {
-        std::string stdout = "";
-        std::string reason= "";
-        ctemplate::TemplateDictionary dict("result");
-        dict.SetValue("stdout", stdout);
+        ctemplate::TemplateDictionary dict("view");
+        dict.SetValue("id", question.id);
+        dict.SetValue("name", question.name);
+        dict.SetValue("level", question.level);
+        dict.SetValue("desc", question.desc);
+        dict.SetValue("header", question.header);
+        dict.SetValue("tail", question.tail);
+        dict.SetValue("add_result", add_result);
+        dict.SetValue("std_out", std_out);
         dict.SetValue("reason", reason);
         ctemplate::Template* tpl;
-        tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "result.html", ctemplate::DO_NOT_STRIP);
+        tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "add_question_commit.html", ctemplate::DO_NOT_STRIP);
         tpl->Expand(&html, &dict);
     }
 
 
-    static void RenderResult(const std::string& stdout, const std::string& reason, std::string& html)
+    static void RenderResult(const std::string& std_out, const std::string& reason, std::string& html)
     {
         ctemplate::TemplateDictionary dict("result");
-        dict.SetValue("stdout", stdout);
+        dict.SetValue("std_out", std_out);
         dict.SetValue("reason", reason);
         ctemplate::Template* tpl;
         tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "result.html", ctemplate::DO_NOT_STRIP);

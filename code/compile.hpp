@@ -48,7 +48,7 @@ public:
     }
     //5. 标准输出文件
     static std::string StdoutPath(const std::string& name) {
-        return "./temp_files/" + name + ".stdout";
+        return "./temp_files/" + name + ".std_out";
     }
     //6. 标准错误文件
     static std::string StderrorPath(const std::string& name) {
@@ -101,9 +101,9 @@ public:
         //4.  把程序的最终结果进行返回，构造Json对象
         resp_json["error"] = 0;
         resp_json["reason"] = "";
-        std::string stdout;
-        FileUtil::Read(StdoutPath(file_name), stdout);
-        resp_json["stdout"] = stdout;
+        std::string std_out;
+        FileUtil::Read(StdoutPath(file_name), std_out);
+        resp_json["std_out"] = std_out;
 
         std::string str_stderror;
         FileUtil::Read(StderrorPath(file_name), str_stderror);

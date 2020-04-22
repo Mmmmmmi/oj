@@ -154,21 +154,16 @@
 
                         <!-- question desc -->
                         <h6>desc</h6>
-                        <div  id="editor0" style="min-height:400px"><textarea class="form-control" id="" name="desc" rows=30 cols=100></textarea>
-                        </div>
+                        <div  id="editor0" style="min-height:400px"><textarea class="form-control" id="" name="desc" rows=30 cols=100></textarea></div>
                         <!-- question header -->
                         <h6>header</h6>
-                        <div  id="editor1" style="min-height:400px"><textarea class="form-control" id="" name="header" rows=30 cols=100></textarea>
-                        </div>
+                        <div  id="editor1" style="min-height:400px"><textarea class="form-control" id="" name="header" rows=30 cols=100></textarea></div>
                         <!-- question tail -->
                         <h6>tail</h6>
-                        <div  id="editor2" style="min-height:400px"><textarea class="form-control" id="" name="tail" rows=30 cols=100></textarea>
-                        </div>
+                        <div  id="editor2" style="min-height:400px"><textarea class="form-control" id="" name="tail" rows=30 cols=100></textarea></div>
                         <!-- question header-test -->
                         <h6>header test</h6>
-                        <div  id="editor3" style="min-height:400px">
-                            <textarea class="form-control" id="" name="header_test" rows=31 cols=100></textarea>
-                        </div>
+                        <div  id="editor3" style="min-height:400px"><textarea class="form-control" id="" name="header_test" rows=31 cols=100></textarea></div>
                         <input type="button" id="submit" class="btn btn-primary" value="review" onclick="view()">
                         <input type="button" id="submit" class="btn btn-primary" value="commit" onclick="commit()">
                     </div>
@@ -281,20 +276,56 @@
             });
             // alert(htmlobj.responseText)
             //$("#output").html(htmlobj.responseText);
-            var obj = window.open("about:blank");  
+            var obj = window.open("/add_question_view");  
             obj.document.write(htmlobj.responseText);  
         }
         function commit() {
-            var code = editor.getValue()
+            //question name
+            var name = document.getElementById("name").value;
+            // question type
+            var need_compile = ""
+            var need_compile_list = document.getElementsByName("need-compile");
+            for (var i = 0; i < need_compile_list.length; i++) {
+                if(need_compile_list[i].checked){
+                    need_compile = need_compile_list[i].value;
+                 }}
+            //question level
+            var level = ""
+            var level_list = document.getElementsByName("level");
+            for (var i = 0; i < level_list.length; i++) {
+                if(level_list[i].checked){
+                    level = level_list[i].value;
+                 }}
+
+            var editname = "editor";
+            var editor = ace.edit(editname + "0");
+            var desc = editor.getValue()
+            var editor = ace.edit(editname + "1");
+            var header = editor.getValue()
+            var editor = ace.edit(editname + "2");
+            var tail = editor.getValue()
+            var editor = ace.edit(editname + "3");
+            var header_test = editor.getValue()
+
             htmlobj=$.ajax({
-            url:"/add_question_commit",
-            type:"POST",
-            data: {"code": code},
-            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-            async:false,
+                url:"/add_question_commit",
+                type:"POST",
+                data: {
+                    "name": name,
+                    "need_compile": need_compile,
+                    "level": level,
+                    "desc": desc,
+                    "header": header,
+                    "tail": tail,
+                    "header_test": header_test
+                },
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                async:false
             });
             // alert(htmlobj.responseText)
-            $("#output").html(htmlobj.responseText);;
+            //$("#output").html(htmlobj.responseText);
+            var obj = window.open("/add_question_commit");  
+            obj.document.write(htmlobj.responseText); 
         }
     </script>
 </body>

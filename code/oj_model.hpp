@@ -81,6 +81,7 @@ public:
         for (const auto& kv : _model) {
             questions.push_back(kv.second);
         }
+        LOG(INFO) << "Get All Questions Success" << std::endl;
         return true;
     }
     bool GetQuestion(const std::string& id, Question& q) const
@@ -88,9 +89,41 @@ public:
         std::map<std::string, Question>::const_iterator pos;
         pos = _model.find(id);
         if (pos == _model.end()) {
+            LOG(ERROR) << "Get Question Fail" << std::endl;
             return false;
         }
         q = pos->second;
+        LOG(INFO) << "Get Question Success" << std::endl;
+        return true;
+    }
+
+    bool InsertQuestion(const Question& question)
+    {
+        //1. 拼接语句
+        const std::string insertstr = "INSERT INTO oj_questions (`name`, `level`, `desc`, `header`, `tail`) VALUES ('" + 
+                                        question.name + "','" +
+                                        question.level + "','" +
+                                        question.desc + "','"  +
+                                        question.header + "','" + 
+                                        question.tail + "')";
+        //2. 插入
+        bool ret_flag = QuestionDb().QueryExec(insertstr);
+        if (ret_flag == false)
+        {
+            LOG(ERROR) << "Insert Questions Fail" << std::endl;
+            return false;
+        }
+        //3. 重新加载题目
+        //4. 加载前 备份
+        std::map<std::string, Question, lesser> _tmp = this->_model;
+        bool load_flag = this->Load();
+        if (load_flag == false)
+        {
+            //5. 如果重新加载失败 就恢复之前备份的
+            this->_model = _tmp;
+            return false;
+        }
+        LOG(INFO) << "Insert Questions Success" << std::endl;
         return true;
     }
 private: 
