@@ -469,28 +469,30 @@ int main()
                     question.desc = body_kv["desc"];
                     question.header = body_kv["header"];
                     question.tail = body_kv["tail"];
-
-                    //5. 如果提交的代码需要编译，则进行编译，否则不编译
-                    const std::string& need_compile = body_kv["need_compile"];
-                    const std::string& header_test = body_kv["header_test"];
-                    Json::Value resp_json;   //从resp_json 放到响应中
-                    resp_json["std_out"] = "";
-                    resp_json["reason"] = "";
                     bool compile_flag = false;        //编译前，定义为失败
-                    bool add_question_flag = false;   //题目添加标志
-                    if (need_compile == "true")
+                    bool add_question_flag = false;   //题目添加标志];
+                    Json::Value resp_json;   //从resp_json 放到响应中
+                    if (question.name != "" && question.level != "" && question.desc != "")
                     {
-                        //6. 拼接要处理的代码
-                        Json::Value req_json;
-                        req_json["code"] = header_test + question.tail;
-                        //7. 编译运行，拿到结果
-                        compile_flag = Compiler::CompileAndRunCpp(req_json, resp_json); 
-                    }
-                    if (need_compile == "false" || (need_compile == "true" && compile_flag == true))
-                    {
-                        //8. 如果不需要编译，或者编译运行成功，那么就添加代码，否则不添加
-                        //   至于测试用例通过了多少，这个就不管了
-                        add_question_flag = model.InsertQuestion(question);
+                        //5. 如果提交的代码需要编译，则进行编译，否则不编译
+                        const std::string& need_compile = body_kv["need_compile"];
+                        const std::string& header_test = body_kv["header_test"];
+                        resp_json["std_out"] = "";
+                        resp_json["reason"] = "";
+                        if (need_compile == "true")
+                        {
+                            //6. 拼接要处理的代码
+                            Json::Value req_json;
+                            req_json["code"] = header_test + question.tail;
+                            //7. 编译运行，拿到结果
+                            compile_flag = Compiler::CompileAndRunCpp(req_json, resp_json); 
+                        }
+                        if (need_compile == "false" || (need_compile == "true" && compile_flag == true))
+                        {
+                            //8. 如果不需要编译，或者编译运行成功，那么就添加代码，否则不添加
+                            //   至于测试用例通过了多少，这个就不管了
+                            add_question_flag = model.InsertQuestion(question);
+                        }
                     }
                     //8. 添加成功和添加失败用不同的提示信息
                     std::string add_result = "";
