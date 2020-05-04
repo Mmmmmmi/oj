@@ -54,4 +54,4 @@
 ## **查看端口状态**
    `netstat -anp | grep 12121`
 ## **客户端运行**
-   `ip:12121/all_questions`
+   `ip:12121/`
