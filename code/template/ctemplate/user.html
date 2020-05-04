@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>My OJ</title>
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/icons/g11.png">
+
+    <!-- CSS ============================================ -->
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/css/vendor/bootstrap.min.css">
+
+    <!-- Icon Font CSS -->
+    <link rel="stylesheet" href="/assets/css/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/vendor/flaticon.css">
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="/assets/css/plugins/slick.css">
+
+    <!-- Main Style CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+<body>
+
+    <style>
+        .modal-dialog-centered{
+            align-items:start;
+        }
+        .section-padding {
+            padding-top: 120px;
+            padding-bottom: 120px;
+        }
+        .section,
+        .main-wrapper {
+            float: left;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+    <div class="section-padding section bg-parallax" data-bg-image="/assets/images/bg/bg-1.png" data-overlay="25">
+        <div class="container">
+            <div class="page-heading-content text-center">
+                <h3 class="title"><a href="https://github.com/Mmmmmmi/oj">My OJ</a></h3>
+            </div>
+            <div class="modal-dialog role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <ul class="loginSignupNav nav">
+                            <li><a class="nav-link active" data-toggle="tab" href="#login">Login</a></li>
+                            <li><a class="nav-link" data-toggle="tab" href="#signup">Sign up</a></li>
+                        </ul>
+                    </div>
+                    <div class="modal-body">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="login">
+                                <form action="javascript:void(0)" method="POST">
+                                    <div class="row mb-n3">
+                                        <div class="col-12 mb-3"><input id="login_email" type="email" placeholder="Email" name="login_email" required></div>
+                                        <div class="col-12 mb-3"><input id="login_password" type="password" placeholder="Password" name="login_password" required></div>
+                                        <div class="col-12 mb-3">
+                                            <div class="row justify-content-between mb-n2">
+                                                <div class="col-auto mb-2"><a href="#">Change Password?</a></div>
+                                                <div class="col-auto mb-2"><a href="#">Forgot Password?</a></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mb-3"><input class="btn btn-primary w-100" type="submit" value="Login" onclick="Login()"></div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="signup">
+                                <form action="javascript:void(0)" method="POST">
+                                    <div class="row mb-n3">
+                                        <div class="col-12 mb-3"><input id="sign_up_name" type="text" placeholder="Your Name" name="sign_up_name" required></div>
+                                        <div class="col-12 mb-3"><input id="sign_up_email" type="email" placeholder="Your Email Address" name="sign_up_email" required></div>
+                                        <div class="col-12 mb-3"><input id="sign_up_password" type="password" placeholder="Choose a Password" name="sign_up_password" required></div>
+                                        <div class="col-12 mb-3"><input class="btn btn-primary w-100" type="submit" value="Sign up" onclick="SignUp()"></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS ============================================ -->
+
+    <!-- Vendors JS -->
+    <script src="/assets/js/vendor/modernizr-3.6.0.min.js"></script>
+    <script src="/assets/js/vendor/jquery-3.4.1.min.js"></script>
+    <script src="/assets/js/vendor/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugins JS -->
+    <script src="/assets/js/plugins/slick.min.js"></script>
+    <script src="/assets/js/plugins/jquery.waypoints.min.js"></script>
+    <script src="/assets/js/plugins/jquery.counterup.min.js"></script>
+    <script src="/assets/js/plugins/jquery.parallax.js"></script>
+    <script src="/assets/js/plugins/jquery.ajaxchimp.min.js"></script>
+    <script src="/assets/js/plugins/ion.rangeSlider.min.js"></script>
+    <script src="/assets/js/plugins/jquery.scrollUp.min.js"></script>
+
+    <!-- Main Activation JS -->
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/app.js"></script>
+    <script>
+        function Login() {
+            var obj = $("#login_email").val();
+            var reg = /[_a-zA-Z\d\-\.]+@[_a-zA-Z\d\-]+(\.[_a-zA-Z\d\-]+)+$/;
+            if (reg.test(obj))
+            {
+                htmlobj=$.ajax({
+                    url: "/login.html",
+                    type:"POST",
+                    data: {
+                        email: $("#login_email").val(),
+                        password: $("#login_password").val()
+                    },
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    async:false,
+                    withCredentials: true,            // 这里设置了withCredentials
+                    crossDomain: true,
+                    success: function (data) {
+                        var ret_obj =  JSON.parse(data)
+                        if (ret_obj.code == 0) {
+                            alert(ret_obj.message);
+                            var newurl = "/all_questions?" + "email=" + $("#login_email").val();
+                            window.location.assign(newurl);
+                        }
+                        else {
+                            alert(ret_obj.message);
+                        }
+                    },
+                    error: function (data) {  
+                        alert("Connection error");
+                    }
+                });
+            }
+        }
+        function SignUp() {
+            var obj = $("#sign_up_email").val();
+            var reg = /[_a-zA-Z\d\-\.]+@[_a-zA-Z\d\-]+(\.[_a-zA-Z\d\-]+)+$/;
+            if (reg.test(obj))
+            {
+                htmlobj=$.ajax({
+                    url: "/sign_up.html",
+                    type:"POST",
+                    data: {
+                        email: $("#sign_up_email").val(),
+                        name: $("#sign_up_name").val(),
+                        password: $("#sign_up_password").val()
+                    },
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    async:false,
+                    withCredentials: true,            // 这里设置了withCredentials
+                    crossDomain: true,
+                    success: function (data) {
+                        var ret_obj =  JSON.parse(data)
+                        if (ret_obj.code == 0) {
+                            alert(ret_obj.message);
+                            window.location.reload();
+                        }
+                        else {
+                            alert(ret_obj.message);
+                        }
+                    },
+                    error: function (data) {  
+                        alert("Connection error");
+                    }
+                });
+            }
+        }
+    </script>
+
+</body>
+
+</html>

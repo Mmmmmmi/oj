@@ -155,9 +155,9 @@ public:
             }
             //unordered_map []　操作的行为　　如果key 不存在，就新增
             //                              如果存在　　就获取到对应的 value
+            //2. 对这里的键值对进行urldecode 解码
             params[kv[0]] = UrlDecode(kv[1]);
         }
-        //2. 对这里的键值对进行urldecode 解码
     }
 
     static unsigned char ToHex(unsigned char x) 
@@ -240,4 +240,38 @@ public:
         LOG(INFO) << "Get Json From File " << file_path << " Success" << std::endl;
         return true;
     }
+};
+
+class RandStrUtil
+{
+public:
+    RandStrUtil() {}
+    ~RandStrUtil() {}
+    static std::string GetRandStr(const size_t str_len)
+    {
+        srand(time(0));                         //产生随机化种子
+        std::string str_value = "";
+        for(int i = 0; i < str_len; i++)
+        {
+            int s;                          //x表示这个字符的ascii码 ，s表示这个字符的大小写  
+            std::string x;
+            s = rand() % 2;                     //随机使s为1或0，为1就是大写，为0就是小写 
+            if (s == 1)                         //如果s=1 
+            {
+                x = (rand() % ('Z' - 'A' + 1)) + 'A';       //将x赋为大写字母的ascii码 
+            }
+            else 
+            {
+                x = (rand() % ('z' - 'a' + 1)) + 'a';       //如果s=0，x赋为小写字母的ascii码 
+            }
+            str_value += x;
+        }
+        return str_value;
+    }
+};
+
+class SendEmailUtil
+{
+    SendEmailUtil() {};
+    ~SendEmailUtil() {};
 };

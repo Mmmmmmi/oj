@@ -91,7 +91,7 @@
     /*--
         Login & Register Modal
     -----------------------------------*/
-    $('#loginSignupModal').on('show.bs.modal', function (event) {
+    $('#UserManageModal').on('show.bs.modal', function (event) {
         var $button = $(event.relatedTarget),
             $target = $button.data('target-sub'),
             $modal = $(this);

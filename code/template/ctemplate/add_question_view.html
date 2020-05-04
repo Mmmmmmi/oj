@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>My OJ - {{name}}</title>
+    <title>My OJ - Add Question View</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -35,7 +35,7 @@
             <div class="row justify-content-between align-items-center">
                 <div class="col">
                     <div class="header-logo">
-                        <a href="/index.html"><img src="/assets/images/icons/header.png" alt="Logo"></a>
+                        <a href="/all_questions?email={{user_email}}"><img src="/assets/images/icons/header.png" alt="Logo"></a>
                     </div>
                 </div>
                 <div class="col-auto d-lg-none d-flex align-items-center">
@@ -45,18 +45,17 @@
                 </div>
                 <nav id="main-menu" class="main-menu col-lg-auto order-lg-2">
                     <ul>
-                        <li class="has-children"><a href="/index.html">Questions</a>
+                        <li class="has-children"><a href="/all_questions?email={{user_email}}">Questions</a>
                             <ul class="sub-menu">
-                                <li><a href="/index.html">All Questions</a></li>
-                                <li><a href="/add_question.html">Add Questions</a></li>
-                                <li><a href="/index.html">My Questions</a></li>
+                                <li><a href="/all_questions?email={{user_email}}">All Questions</a></li>
+                                <li><a href="/add_question.html?email={{user_email}}">Add Questions</a></li>
                             </ul>
                         </li>
-                        <li class="has-children"><a href="/index.html">User</a>
+                        <li class="has-children">{{user_name}}</a>
                             <ul class="sub-menu">
-                                <li><a href="#" data-toggle="modal" data-target="#loginSignupModal" data-target-sub="#login">Login</a></li>
-                                <li><a href="#" data-toggle="modal" data-target="#loginSignupModal" data-target-sub="#signup">Sign up</a></li>
-                            </ul>
+                                <li><span>User Email : {{user_email}}</span></li>
+                                <li><a href="#" data-toggle="modal" data-target="#UserManageModal" data-target-sub="#changepassword">Change Password</a></li>
+                            </ul
                         </li>
                     </ul>
                 </nav>
@@ -72,17 +71,16 @@
                 <div class="offcanvas-menu">
                     <nav>
                         <ul>
-                            <li class="has-children"><a href="/index.html">Questions</a>
+                            <li class="has-children"><a href="/all_questions?email={{user_email}}">Questions</a>
                                 <ul class="sub-menu">
-                                    <li><a href="/index.html">All Questions</a></li>
-                                    <li><a href="/add_question.html">Add Questions</a></li>
-                                    <li><a href="/index.html">My Questions</a></li>
+                                    <li><a href="/all_questions?email={{user_email}}">All Questions</a></li>
+                                    <li><a href="/add_question.html?email={{user_email}}">Add Questions</a></li>
                                 </ul>
                             </li>
-                            <li class="has-children"><a href="/index.html">What</a>
+                            <li class="has-children">{{user_name}}</a>
                                 <ul class="sub-menu">
-                                    <li><a href="#" data-toggle="modal" data-target="#loginSignupModal" data-target-sub="#login">Login</a></li>
-                                    <li><a href="#" data-toggle="modal" data-target="#loginSignupModal" data-target-sub="#signup">Sign up</a></li>
+                                    <li><span>User Email : {{user_email}}</span></li>
+                                    <li><a href="#" data-toggle="modal" data-target="#UserManageModal" data-target-sub="#changepassword">Change Password</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -96,72 +94,26 @@
     <!-- OffCanvas Overlay -->
     <div class="offcanvas-overlay"></div>
 
-    <div class="loginSignupModal modal fade" id="loginSignupModal" tabindex="-1" role="dialog" aria-labelledby="loginSignupModal" aria-hidden="true">
+    <div class="UserManageModal modal fade" id="UserManageModal" tabindex="-1" role="dialog" aria-labelledby="UserManageModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-
                     <ul class="loginSignupNav nav">
-                        <li><a class="nav-link active" data-toggle="tab" href="#login">Login</a></li>
-                        <li><a class="nav-link" data-toggle="tab" href="#signup">Sign up</a></li>
+                        <li><a class="nav-link active" data-toggle="tab" href="#changepassword">Change Password</a></li>
                     </ul>
-
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-
                 </div>
                 <div class="modal-body">
                     <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="login">
-                            <form>
+                        <div class="tab-pane fade show active" id="changepassword">
+                            <form action="javascript:void(0)" method="POST">
                                 <div class="row mb-n3">
-                                    <div class="col-12 mb-3"><input type="email" placeholder="Email"></div>
-                                    <div class="col-12 mb-3"><input type="password" placeholder="Password"></div>
-                                    <div class="col-12 mb-3">
-                                        <div class="row justify-content-between mb-n2">
-                                            <div class="col-auto mb-2">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" name="remember-me" id="remember-me" value="checkedValue" class="custom-control-input">
-                                                    <label class="custom-control-label" for="remember-me">Remember me</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto mb-2"><a href="#">Forgot Password?</a></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 mb-3"><input class="btn btn-primary w-100" type="submit" value="Login"></div>
-                                </div>
-                                <div class="row mt-4">
-                                    <div class="col text-center">
-                                        <p class="text-muted">Or Login With</p>
-                                        <div class="login-reg-social">
-                                            <a href="#"><i class="fa fa-facebook"></i></a>
-                                            <a href="#"><i class="fa fa-twitter"></i></a>
-                                            <a href="#"><i class="fa fa-pinterest"></i></a>
-                                            <a href="#"><i class="fa fa-linkedin"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="tab-pane fade" id="signup">
-                            <form>
-                                <div class="row mb-n3">
-                                    <div class="col-12 mb-3"><input type="text" placeholder="Your Name"></div>
-                                    <div class="col-12 mb-3"><input type="email" placeholder="Your Email Address"></div>
-                                    <div class="col-12 mb-3"><input type="password" placeholder="Choose a Password"></div>
-                                    <div class="col-12 mb-3"><input class="btn btn-primary w-100" type="submit" value="Sign Up"></div>
-                                </div>
-                                <div class="row mt-4">
-                                    <div class="col text-center">
-                                        <p class="text-muted">Or Register With</p>
-                                        <div class="login-reg-social">
-                                            <a href="#"><i class="fa fa-facebook"></i></a>
-                                            <a href="#"><i class="fa fa-twitter"></i></a>
-                                            <a href="#"><i class="fa fa-pinterest"></i></a>
-                                            <a href="#"><i class="fa fa-linkedin"></i></a>
-                                        </div>
-                                    </div>
+                                    <div class="col-12 mb-3"><input id="old_password" type="password" placeholder="Old Password"></div>
+                                    <div class="col-12 mb-3"><input id="new_password0" type="password" placeholder="New Password"></div>
+                                    <div class="col-12 mb-3"><input id="new_password1" type="password" placeholder="New Password"></div>
+                                    <div class="col-12 mb-3"><input class="btn btn-primary w-100" type="submit" value="Submit" onclick="Change_Password()"></div>
                                 </div>
                             </form>
                         </div>
@@ -170,7 +122,6 @@
             </div>
         </div>
     </div>
-    
 
     <!-- Page Heading Section Start -->
     <div class="page-heading-section section bg-parallax" data-bg-image="/assets/images/bg/bg-1.png" data-overlay="25">
@@ -178,7 +129,7 @@
             <div class="page-heading-content text-center">
                 <h3 class="title">My OJ</h3>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/all_questions?email={{user_email}}">Home</a></li>
                     <li class="breadcrumb-item">Add Question View</a></li>
                 </ol>
             </div>
@@ -267,7 +218,7 @@
         function run(question_id) {
             var code = editor.getValue()
             htmlobj=$.ajax({
-                url:"/compile/" + question_id,
+                url:"/compile/" + question_id + "?email={{user_name}}",
                 type:"POST",
                 data: {"code": code},
                 contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -275,6 +226,46 @@
             });
             // alert(htmlobj.responseText)
             $("#output").html(htmlobj.responseText);
+        }
+        function Change_Password()
+        {
+            var old_password = $("#old_password").val();
+            var new_password0 = $("#new_password0").val();
+            var new_password1 = $("#new_password1").val();
+            if (new_password0 == new_password1)
+            {
+                htmlobj=$.ajax({
+                    url: "/change_password.html?email={{user_email}}",
+                    type:"POST",
+                    data: {
+                        email: "{{user_email}}",
+                        old_password: $("#old_password").val(),
+                        new_password0: $("#new_password0").val(),
+                        new_password1: $("#new_password1").val(),
+                    },
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    async:false,
+                    withCredentials: true,            // 这里设置了withCredentials
+                    crossDomain: true,
+                    success: function (data) {
+                        var ret_obj =  JSON.parse(data)
+                        if (ret_obj.code == 0) {
+                            alert(ret_obj.message);
+                            window.location.reload();
+                        }
+                        else {
+                            alert(ret_obj.message);
+                        }
+                    },
+                    error: function (data) {  
+                        alert("Connection error");
+                    }
+                });
+            }
+            else
+            {
+                alert("Two Input Password Must Be Consistent");
+            }
         }
     </script>
 

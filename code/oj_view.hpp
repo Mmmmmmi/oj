@@ -7,8 +7,17 @@ const std::string TEMPLATEBASE = "./template/ctemplate/";
 class OjView
 {
 public:
+
+    static void RenderUser(std::string& html)
+    {
+        ctemplate::TemplateDictionary dict("");
+        ctemplate::Template* tpl;
+        tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "user.html", ctemplate::DO_NOT_STRIP);
+        tpl->Expand(&html, &dict);
+    }
+
     //根据数据生成html 这个动作 通常叫做网页渲染
-    static void RenderAllQuestions(const std::vector<Question>& all_questions, std::string& html)
+    static void RenderAllQuestions(const User& user, const std::vector<Question>& all_questions, std::string& html)
     {
         //这个函数帮我们将题目数据转换成 题目列表 html 
         //通过模板的方式解决问题
@@ -18,6 +27,8 @@ public:
         //3. 每一个子对象再设置一些键值对(和模板中留下的{{}}
         //4. 进行数据的替换 生成最终的html
         ctemplate::TemplateDictionary dict("all_questions");
+        dict.SetValue("user_name", user.name);
+        dict.SetValue("user_email", user.email);
         for (const auto& question : all_questions) {
             ctemplate::TemplateDictionary* table_dict = dict.AddSectionDictionary("question");
             //table_dict->SetValue("questions_num", "" + all_questions.size());
@@ -30,9 +41,11 @@ public:
         tpl->Expand(&html, &dict);
     }
 
-    static void RenderQuestion(const Question& question, std::string& html)
+    static void RenderQuestion(const User& user, const Question& question, std::string& html)
     {
         ctemplate::TemplateDictionary dict("question");
+        dict.SetValue("user_name", user.name);
+        dict.SetValue("user_email", user.email);
         dict.SetValue("id", question.id);
         dict.SetValue("name", question.name);
         dict.SetValue("level", question.level);
@@ -43,9 +56,13 @@ public:
         tpl->Expand(&html, &dict);
     }
 
-    static void RenderAddQuestion(const Question& question, std::string& html)
+    static void RenderAddQuestion(const User& user, const Question& question, std::string& html)
     {
         ctemplate::TemplateDictionary dict("question");
+        dict.SetValue("user_name", user.name);
+        dict.SetValue("user_email", user.email);
+        dict.SetValue("user_name", user.name);
+        dict.SetValue("user_email", user.email);
         dict.SetValue("name", question.name);
         dict.SetValue("level", question.level);
         dict.SetValue("desc", question.desc);
@@ -57,9 +74,11 @@ public:
     }
 
     
-    static void RenderAddQuestionView(const Question& question, const std::string& std_out, const std::string& reason, std::string& html)
+    static void RenderAddQuestionView(const User& user, const Question& question, const std::string& std_out, const std::string& reason, std::string& html)
     {
         ctemplate::TemplateDictionary dict("view");
+        dict.SetValue("user_name", user.name);
+        dict.SetValue("user_email", user.email);
         dict.SetValue("id", question.id);
         dict.SetValue("name", question.name);
         dict.SetValue("level", question.level);
@@ -73,9 +92,11 @@ public:
         tpl->Expand(&html, &dict);
     }
         
-    static void RenderAddQuestionCommit(const Question& question, const std::string& add_result, const std::string& std_out, const std::string& reason, std::string& html)
+    static void RenderAddQuestionCommit(const User& user, const Question& question, const std::string& add_result, const std::string& std_out, const std::string& reason, std::string& html)
     {
         ctemplate::TemplateDictionary dict("view");
+        dict.SetValue("user_name", user.name);
+        dict.SetValue("user_email", user.email);
         dict.SetValue("id", question.id);
         dict.SetValue("name", question.name);
         dict.SetValue("level", question.level);
