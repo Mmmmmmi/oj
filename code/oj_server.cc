@@ -435,7 +435,7 @@ int main()
                         Json::Value req_json;
                         req_json["code"] = header_test + question.tail;
                         //7. 编译运行，拿到结果
-                        Compiler::CompileAndRun(req_json, resp_json); 
+                        Compiler::CompileAndRunCpp(req_json, resp_json); 
                     }
                     //8. 返回
                     OjView::RenderAddQuestionView(request_user, question, resp_json["std_out"].asString(), resp_json["reason"].asString(), html);
@@ -484,7 +484,7 @@ int main()
                         Json::Value req_json;
                         req_json["code"] = header_test + question.tail;
                         //7. 编译运行，拿到结果
-                        compile_flag = Compiler::CompileAndRun(req_json, resp_json); 
+                        compile_flag = Compiler::CompileAndRunCpp(req_json, resp_json); 
                     }
                     if (need_compile == "false" || (need_compile == "true" && compile_flag == true))
                     {
@@ -529,17 +529,27 @@ int main()
                     //4. 先根据id 获取到题目信息
                     Question question;
                     model.GetQuestion(req.matches[1].str(), question);
-                    //5. 解析body 获取到用户的代码
+                    //5. 获取body 判断是cpp 还是 python
                     std::unordered_map<std::string, std::string>  body_kv;
                     UrlUtil::ParseBody(req.body, body_kv);
+                    const std::string& code_type = body_kv["code_type"]; 
                     const std::string& user_code = body_kv["code"];
                     //6. 构造json 结构的参数
                     Json::Value req_json;
-                    //真实需要的代码   用户提交的 + 题目测试用例
-                    req_json["code"] = user_code + question.tail;
                     Json::Value resp_json;   //从resp_json 放到响应中
-                    //7. 调用编译模块 编译
-                    Compiler::CompileAndRun(req_json, resp_json);
+                    if (code_type == "cpp")
+                    {
+                        //真实需要的代码   用户提交的 + 题目测试用例
+                        req_json["code"] = user_code + question.tail;
+                        //7. 调用编译模块 编译
+                        Compiler::CompileAndRunCpp(req_json, resp_json);
+                    }
+                    else
+                    {
+                        req_json["code"] = user_code;
+                        //7. 调用编译模块 编译
+                        Compiler::RunPython(req_json, resp_json);
+                    }
                     //8. 根据结构 构造成最后的网页
                     OjView::RenderResult(resp_json["std_out"].asString(),resp_json["reason"].asString(), html);
                 }
