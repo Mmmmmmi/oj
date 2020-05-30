@@ -41,6 +41,81 @@ public:
         tpl->Expand(&html, &dict);
     }
 
+     //根据数据生成html 这个动作 通常叫做网页渲染
+    static void RenderUserQuestions(const User& user, const std::vector<Question>& all_questions, std::string& html)
+    {
+        //这个函数帮我们将题目数据转换成 题目列表 html 
+        //通过模板的方式解决问题
+        //类似于模板填空题  实现准好一些模板 在处理请求的过程中 对请求进行处理
+        //1. 先创建一个ctemplate 对象 这是一个总的组织对象
+        //2. 循环的往这个对象中添加一些子对象
+        //3. 每一个子对象再设置一些键值对(和模板中留下的{{}}
+        //4. 进行数据的替换 生成最终的html
+        ctemplate::TemplateDictionary dict("user_questions");
+        dict.SetValue("user_name", user.name);
+        dict.SetValue("user_email", user.email);
+        for (const auto& question : all_questions) {
+            ctemplate::TemplateDictionary* table_dict = dict.AddSectionDictionary("question");
+            //table_dict->SetValue("questions_num", "" + all_questions.size());
+            table_dict->SetValue("id", question.id);
+            table_dict->SetValue("name", question.name);
+            table_dict->SetValue("level", question.level);
+        }
+        ctemplate::Template* tpl;
+        tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "user_questions.html", ctemplate::DO_NOT_STRIP);
+        tpl->Expand(&html, &dict);
+    }
+
+    //根据数据生成html 这个动作 通常叫做网页渲染
+    static void RenderSortQuestions(const User& user, const std::vector<Question>& sort_questions, std::string& html)
+    {
+        //这个函数帮我们将题目数据转换成 题目列表 html 
+        //通过模板的方式解决问题
+        //类似于模板填空题  实现准好一些模板 在处理请求的过程中 对请求进行处理
+        //1. 先创建一个ctemplate 对象 这是一个总的组织对象
+        //2. 循环的往这个对象中添加一些子对象
+        //3. 每一个子对象再设置一些键值对(和模板中留下的{{}}
+        //4. 进行数据的替换 生成最终的html
+        ctemplate::TemplateDictionary dict("sort_questions");
+        dict.SetValue("user_name", user.name);
+        dict.SetValue("user_email", user.email);
+        for (const auto& question : sort_questions) {
+            ctemplate::TemplateDictionary* table_dict = dict.AddSectionDictionary("question");
+            //table_dict->SetValue("questions_num", "" + all_questions.size());
+            table_dict->SetValue("id", question.id);
+            table_dict->SetValue("name", question.name);
+            table_dict->SetValue("level", question.level);
+        }
+        ctemplate::Template* tpl;
+        tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "sort_questions.html", ctemplate::DO_NOT_STRIP);
+        tpl->Expand(&html, &dict);
+    }
+
+        //根据数据生成html 这个动作 通常叫做网页渲染
+    static void RenderSeacherQuestions(const User& user, const std::vector<Question>& seacher_questions, std::string& html)
+    {
+        //这个函数帮我们将题目数据转换成 题目列表 html 
+        //通过模板的方式解决问题
+        //类似于模板填空题  实现准好一些模板 在处理请求的过程中 对请求进行处理
+        //1. 先创建一个ctemplate 对象 这是一个总的组织对象
+        //2. 循环的往这个对象中添加一些子对象
+        //3. 每一个子对象再设置一些键值对(和模板中留下的{{}}
+        //4. 进行数据的替换 生成最终的html
+        ctemplate::TemplateDictionary dict("seacher_questions");
+        dict.SetValue("user_name", user.name);
+        dict.SetValue("user_email", user.email);
+        for (const auto& question : seacher_questions) {
+            ctemplate::TemplateDictionary* table_dict = dict.AddSectionDictionary("question");
+            //table_dict->SetValue("questions_num", "" + all_questions.size());
+            table_dict->SetValue("id", question.id);
+            table_dict->SetValue("name", question.name);
+            table_dict->SetValue("level", question.level);
+        }
+        ctemplate::Template* tpl;
+        tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "seacher_questions.html", ctemplate::DO_NOT_STRIP);
+        tpl->Expand(&html, &dict);
+    }
+
     static void RenderQuestion(const User& user, const Question& question, std::string& html)
     {
         ctemplate::TemplateDictionary dict("question");
@@ -51,6 +126,8 @@ public:
         dict.SetValue("level", question.level);
         dict.SetValue("desc", question.desc);
         dict.SetValue("header", question.header);
+        std::string python_header = "#!/usr/bin/env python\n# coding=utf-8\n";
+        dict.SetValue("python_header", python_header);
         ctemplate::Template* tpl;
         tpl = ctemplate::Template::GetTemplate(TEMPLATEBASE + "question.html", ctemplate::DO_NOT_STRIP);
         tpl->Expand(&html, &dict);

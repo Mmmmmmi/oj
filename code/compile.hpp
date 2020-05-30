@@ -111,7 +111,7 @@ public:
 
         std::string str_stderror;
         FileUtil::Read(StderrorPath(file_name), str_stderror);
-        resp_json["stderror"] = str_stderror;
+        resp_json["reason"] = str_stderror;
         LOG(INFO) << "Program: "
             << "Done" << std::endl;
         return true;
@@ -152,7 +152,7 @@ public:
 
         std::string str_stderror;
         FileUtil::Read(StderrorPath(file_name), str_stderror);
-        resp_json["stderror"] = str_stderror;
+        resp_json["reason"] = str_stderror;
         LOG(INFO) << "Program: "
             << "Done" << std::endl;
         return true;

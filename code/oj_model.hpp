@@ -63,9 +63,10 @@ public:
         bool retflag = OjDb().QuerySelectQuestions(select_str, ret);
         if (retflag == true)
         {
+            int i = 1;
             for (Question iterm : ret)
             {
-                _questions_model[iterm.id] = iterm;
+                _questions_model[std::to_string(i++)] = iterm;
             }
             LOG(INFO) << "Load Questions Success : Load " << _questions_model.size() << " Questions" << std::endl;
             return true;
@@ -104,8 +105,39 @@ public:
         questions.clear();
         for (const auto& kv : _questions_model) {
             questions.push_back(kv.second);
+            questions[questions.size() - 1].id = kv.first;
         }
         LOG(INFO) << "Get All Questions Success" << std::endl;
+        return true;
+    }
+
+    //获取分类题目信息
+    bool GetSortQuestions(std::vector<Question>& sort_questions, const std::string sort_key) const
+    {
+        //遍历刚才的hash表
+        sort_questions.clear();
+        for (const auto& kv : _questions_model) {
+            if (kv.second.level == sort_key) {
+                sort_questions.push_back(kv.second);
+                sort_questions[sort_questions.size() - 1].id = kv.first;
+            }
+        }
+        LOG(INFO) << "Get Sort Questions Success" << std::endl;
+        return true;
+    }
+
+    //获取查找题目信息
+    bool GetSeacherQuestions(std::vector<Question>& seacher_questions, const std::string seacher_key) const
+    {
+        //遍历刚才的hash表
+        seacher_questions.clear();
+        for (const auto& kv : _questions_model) {
+            if (kv.second.name.find(seacher_key) != std::string::npos || kv.second.level.find(seacher_key) != std::string::npos) {
+                seacher_questions.push_back(kv.second);
+                seacher_questions[seacher_questions.size() - 1].id = kv.first;
+            }
+        }
+        LOG(INFO) << "Get Seacher Questions Success" << std::endl;
         return true;
     }
 
@@ -153,6 +185,35 @@ public:
         //3. 没有找到用户，返回 false
         LOG(ERROR) << "User Is Not Exist" << std::endl;
         return false;
+    }
+
+    //根据用户获取所属题目
+    bool GetUserQuestions(const User& user, std::vector<Question>& user_questions) const
+    {
+        //1. 先获取用户所属题目ID
+        std::string select_str = "select * from users_questions";
+        std::vector<std::string> user_questions_id;
+        bool retflag = OjDb().QuerySelectUserQuestions(select_str, user_questions_id);
+        if (retflag == true)
+        {
+            //2. 获取用户所属题目
+            for (const auto i : user_questions_id) 
+            {
+                for (const auto e : _questions_model)
+                {
+                    if (e.second.id == i) {
+                        user_questions.push_back(e.second);
+                        user_questions[user_questions.size() - 1].id = e.first;
+                    }
+                }
+            }
+            LOG(INFO) << "Get User Questions Success" << std::endl;
+            return true;
+        }
+        else {
+            LOG(ERROR) << "Get User Questions Fail" << std::endl;
+            return false;
+        }
     }
 
     //获取用户信息，根据 email 获取，

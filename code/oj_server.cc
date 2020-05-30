@@ -33,12 +33,50 @@ bool GetParamEmail(const Request& req, User& request_user)
         request_user.email = req.get_param_value("email");
         if (CheckEmailReg(request_user.email) == true)
         {
-            //LOG(INFO) << "request_user.email " << request_user.email << std::endl;
+            LOG(INFO) << "request_user.email " << request_user.email << std::endl;
             return true;
         }
         else
         {
-            //LOG(INFO) << "request_user.email is invalid" << request_user.email << std::endl;
+            LOG(INFO) << "request_user.email is invalid" << request_user.email << std::endl;
+        }
+    }
+    return false;
+}
+
+bool GetParamSortKey(const Request& req, std::string& sort_key)
+{
+    if (req.has_param("sort_key") == true)
+    {
+        sort_key = "";
+        sort_key = req.get_param_value("sort_key");
+        if (sort_key != "")
+        {
+            LOG(INFO) << "sort_key : " << sort_key << std::endl;
+            return true;
+        }
+        else
+        {
+            LOG(INFO) << "sort_key is invalid" << sort_key << std::endl;
+        }
+    }
+    return false;
+}
+
+bool GetParamSeacherKey(const Request& req, std::string& seacher_key)
+{
+    if (req.has_param("seacher_key") == true)
+    {
+        seacher_key = "";
+        seacher_key = req.get_param_value("seacher_key");
+        if (seacher_key != "")
+        {
+            LOG(INFO) << "seacher_key : " << seacher_key << std::endl;
+            return true;
+        }
+        else
+        {
+            LOG(INFO) << "seacher_key is invalid" << seacher_key << std::endl;
         }
     }
     return false;
@@ -50,7 +88,7 @@ bool GetHeaderIpAndCookie(const Request& req, User& request_user)
     {
         request_user.ip = req.get_header_value("REMOTE_ADDR");
         request_user.key = req.get_header_value("Cookie");
-        ////LOG(INFO) << "header_has_key " << header_has_key << std::endl;
+        //LOG(INFO) << "header_has_key " << header_has_key << std::endl;
         //LOG(INFO) << "request.ip " << request_user.ip << std::endl;
         //LOG(INFO) << "request.key " << request_user.key << std::endl;
         return true;
@@ -114,11 +152,109 @@ int main()
                 }
                 else
                 {
-                    //LOG(INFO) << "resp.set_redirect" << std::endl;
+                    LOG(INFO) << "resp.set_redirect" << std::endl;
                     resp.set_redirect("/");
                 }
                 resp.set_content(html, "text/html");
                 });
+    
+    server.Get("/user_questions(.html)?", [&model] (const Request& req, Response& resp) {
+                User request_user;       //保存客户端发过来的用户信息
+                bool has_param = false;   // url 参数中是否有 email 存在
+                bool header_has_key = false;   // header 中 是否有 REMOTE_ADDR 和 Cookie 存在
+                std::string html = "";
+                //1. 从参数中获取用户邮箱
+                has_param = GetParamEmail(req, request_user);
+                //2. 获取客户端 cookie 和 ip
+                header_has_key = GetHeaderIpAndCookie(req, request_user);
+                //3. 如果两个信息的获取有一个失败了 说名登录有问题
+                if (has_param == true && header_has_key == true && CheckLoginStatus(model, request_user) == true)
+                {
+                    //4. 用户登录成功 返回正确的页面
+                    std::vector<Question> user_questions;
+                    model.GetUserQuestions(request_user, user_questions);
+                    OjView::RenderUserQuestions(request_user, user_questions, html);
+                }
+                else
+                {
+                    LOG(INFO) << "resp.set_redirect" << std::endl;
+                    resp.set_redirect("/");
+                }
+                resp.set_content(html, "text/html");
+                });
+    
+    server.Get("/sort_questions(.html)?", [&model] (const Request& req, Response& resp) {
+                User request_user;       //保存客户端发过来的用户信息
+                bool has_param = false;   // url 参数中是否有 email 存在
+                bool header_has_key = false;   // header 中 是否有 REMOTE_ADDR 和 Cookie 存在
+                std::string html = "";
+                //1. 从参数中获取用户邮箱
+                has_param = GetParamEmail(req, request_user);
+                //2. 获取客户端 cookie 和 ip
+                header_has_key = GetHeaderIpAndCookie(req, request_user);
+                //3. 如果两个信息的获取有一个失败了 说名登录有问题
+                if (has_param == true && header_has_key == true && CheckLoginStatus(model, request_user) == true)
+                {
+                    //4. 检查sort key
+                    std::string sort_key = "";
+                    bool has_sort_key = GetParamSortKey(req, sort_key);
+                    if (has_sort_key == true)
+                    {
+                        //5. 加载sort 后结果
+                        std::vector<Question> sort_questions;
+                        model.GetSortQuestions(sort_questions, sort_key);
+                        OjView::RenderSortQuestions(request_user, sort_questions, html);
+                    }
+                    else
+                    {
+                        LOG(INFO) << "resp.set_redirect" << std::endl;
+                        resp.set_redirect("/");
+                    }
+                }
+                else
+                {
+                    LOG(INFO) << "resp.set_redirect" << std::endl;
+                    resp.set_redirect("/");
+                }
+                resp.set_content(html, "text/html");
+                });
+    
+    server.Get("/seacher_questions(.html)?", [&model] (const Request& req, Response& resp) {
+                User request_user;       //保存客户端发过来的用户信息
+                bool has_param = false;   // url 参数中是否有 email 存在
+                bool header_has_key = false;   // header 中 是否有 REMOTE_ADDR 和 Cookie 存在
+                std::string html = "";
+                //1. 从参数中获取用户邮箱
+                has_param = GetParamEmail(req, request_user);
+                //2. 获取客户端 cookie 和 ip
+                header_has_key = GetHeaderIpAndCookie(req, request_user);
+                //3. 如果两个信息的获取有一个失败了 说名登录有问题
+                if (has_param == true && header_has_key == true && CheckLoginStatus(model, request_user) == true)
+                {
+                    //4. 检查sort key
+                    std::string seacher_key = "";
+                    bool has_seacher_key = GetParamSeacherKey(req, seacher_key);
+                    if (has_seacher_key == true)
+                    {
+                        //5. 加载seacher 后结果
+                        std::vector<Question> seacher_questions;
+                        model.GetSeacherQuestions(seacher_questions, seacher_key);
+                        OjView::RenderSeacherQuestions(request_user, seacher_questions, html);
+                    }
+                    else
+                    {
+                        LOG(INFO) << "resp.set_redirect" << std::endl;
+                        resp.set_redirect("/");
+                    }
+                }
+                else
+                {
+                    LOG(INFO) << "resp.set_redirect" << std::endl;
+                    resp.set_redirect("/");
+                }
+                resp.set_content(html, "text/html");
+                });
+
 
     //R"()" C++11 引入的语法，原始字符串(忽略字符串中的转义字符)
     //\d + 正则表达式 
@@ -142,7 +278,7 @@ int main()
                 }
                 else
                 {
-                    //LOG(INFO) << "resp.set_redirect" << std::endl;
+                    LOG(INFO) << "resp.set_redirect" << std::endl;
                     resp.set_redirect("/");
                 }
                 resp.set_content(html, "text/html");

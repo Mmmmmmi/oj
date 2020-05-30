@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/icons/g11.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/icons/g6.png">
 
     <!-- CSS ============================================ -->
 
@@ -47,8 +47,9 @@
                     <ul>
                         <li class="has-children"><a href="/all_questions?email={{user_email}}">Questions</a>
                             <ul class="sub-menu">
-                                <li><a href="/all_questions?email={{user_email}}">All Questions</a></li>
-                                <li><a href="/add_question.html?email={{user_email}}">Add Questions</a></li>
+                                    <li><a href="/all_questions?email={{user_email}}">All Questions</a></li>
+                                    <li><a href="/user_questions.html?email={{user_email}}">My Questions</a></li>
+                                    <li><a href="/add_question.html?email={{user_email}}">Add Questions</a></li>
                             </ul>
                         </li>
                         <li class="has-children">{{user_name}}</a>
@@ -74,6 +75,7 @@
                             <li class="has-children"><a href="/all_questions?email={{user_email}}">Questions</a>
                                 <ul class="sub-menu">
                                     <li><a href="/all_questions?email={{user_email}}">All Questions</a></li>
+                                    <li><a href="/user_questions.html?email={{user_email}}">My Questions</a></li>
                                     <li><a href="/add_question.html?email={{user_email}}">Add Questions</a></li>
                                 </ul>
                             </li>
@@ -181,16 +183,16 @@
 
                         <!-- question desc -->
                         <h6>desc</h6>
-                        <div  id="editor0" style="min-height:400px"><textarea class="form-control" id="" name="desc" rows=30 cols=100></textarea></div>
+                        <div id="editor0" style="min-height:400px"><textarea class="form-control" id="" name="desc" rows=30 cols=100></textarea></div>
                         <!-- question header -->
                         <h6>header</h6>
-                        <div  id="editor1" style="min-height:400px"><textarea class="form-control" id="" name="header" rows=30 cols=100></textarea></div>
+                        <div id="editor1" style="min-height:400px"><textarea class="form-control" id="" name="header" rows=30 cols=100></textarea></div>
                         <!-- question tail -->
                         <h6>tail</h6>
-                        <div  id="editor2" style="min-height:400px"><textarea class="form-control" id="" name="tail" rows=30 cols=100></textarea></div>
+                        <div id="editor2" style="min-height:400px"><textarea class="form-control" id="" name="tail" rows=30 cols=100></textarea></div>
                         <!-- question header-test -->
                         <h6>header test</h6>
-                        <div  id="editor3" style="min-height:400px"><textarea class="form-control" id="" name="header_test" rows=31 cols=100></textarea></div>
+                        <div id="editor3" style="min-height:400px"><textarea class="form-control" id="" name="header_test" rows=31 cols=100></textarea></div>
                         <input type="button" id="submit" class="btn btn-primary" value="review" onclick="view()">
                         <input type="button" id="submit" class="btn btn-primary" value="commit" onclick="commit()">
                     </div>

@@ -97,7 +97,7 @@ public:
                 };  
                 */
                 Question tmp;
-                tmp.id = std::to_string(i);
+                tmp.id = result_row[0];
                 tmp.name = result_row[1];
                 tmp.level = result_row[2];
                 tmp.desc = result_row[3];
@@ -159,6 +159,55 @@ public:
                 tmp.key = "";
                 tmp.ip = "";
                 users.push_back(tmp);
+            }
+        }
+        LOG(INFO) << "MySQL Query [" << sql << "] Success" << std::endl;
+        return true;
+    }
+
+    /* 如果是 insert/update/delete 那么就传入*/
+    bool QuerySelectUserQuestions(const std::string& sql, std::vector<std::string>& questions_id)
+    {
+        int result = mysql_query(&_connection, sql.c_str());
+        /* 成功返回 0  失败返回 1 */
+        if (result)
+        {
+            LOG(ERROR) << "MySQL Query [" << sql << "] Fail : " << mysql_error(&_connection) << std::endl;
+            return false;
+        }
+        MYSQL_RES *res_ptr;     /* 指向查询结果的指针 */
+        MYSQL_FIELD *field;     /* 字段结构指针 */
+        MYSQL_ROW result_row;   /* 按行返回的查询信息 */        
+
+        res_ptr = mysql_store_result(&_connection);
+        /* 如果有查询结果 */
+        if (res_ptr)
+        {
+            /* 返回的vector清空 */
+            std::vector<std::string>().swap(questions_id);
+            /* 取得結果的行数和列数 */
+            int column = mysql_num_fields(res_ptr);
+            int row = mysql_num_rows(res_ptr) + 1;
+            LOG(INFO) << "Query Row = " << row << " Column = "<< column << std::endl;
+
+            /* 输出结果的字段名 */
+            //mysql_fetch_field(res_ptr)
+
+            /* 按行输出結果 */
+            for (int i = 1; i < row; i++)
+            {
+                result_row = mysql_fetch_row(res_ptr); //获取数据 
+                /*
+                struct User
+                {
+                    std::string email;
+                    std::string name;
+                    std::string password;
+                    std::string key;
+                    std::string ip;
+                };
+                */
+                questions_id.push_back(result_row[1]);
             }
         }
         LOG(INFO) << "MySQL Query [" << sql << "] Success" << std::endl;

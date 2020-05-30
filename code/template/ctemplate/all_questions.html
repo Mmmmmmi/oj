@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/icons/g11.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/icons/g6.png">
 
     <!-- CSS ============================================ -->
 
@@ -48,6 +48,7 @@
                         <li class="has-children"><a href="/all_questions?email={{user_email}}">Questions</a>
                             <ul class="sub-menu">
                                 <li><a href="/all_questions?email={{user_email}}">All Questions</a></li>
+                                <li><a href="/user_questions.html?email={{user_email}}">My Questions</a></li>
                                 <li><a href="/add_question.html?email={{user_email}}">Add Questions</a></li>
                             </ul>
                         </li>
@@ -74,6 +75,7 @@
                             <li class="has-children"><a href="/all_questions?email={{user_email}}">Questions</a>
                                 <ul class="sub-menu">
                                     <li><a href="/all_questions?email={{user_email}}">All Questions</a></li>
+                                    <li><a href="/user_questions.html?email={{user_email}}">My Questions</a></li>
                                     <li><a href="/add_question.html?email={{user_email}}">Add Questions</a></li>
                                 </ul>
                             </li>
@@ -113,7 +115,7 @@
                                     <div class="col-12 mb-3"><input id="old_password" type="password" placeholder="Old Password"></div>
                                     <div class="col-12 mb-3"><input id="new_password0" type="password" placeholder="New Password"></div>
                                     <div class="col-12 mb-3"><input id="new_password1" type="password" placeholder="New Password"></div>
-                                    <div class="col-12 mb-3"><input class="btn btn-primary w-100" type="submit" value="Submit" onclick="Change_Password()"></div>
+                                    <div class="col-12 mb-3"><input class="btn btn-primary w-100" type="submit" value="Submit" onclick="ChangePassword()"></div>
                                 </div>
                             </form>
                         </div>
@@ -147,9 +149,8 @@
     <div class="section section-padding">
         <div class="container">
             <section class="my-5 pt-5">
-                <div class="container">
-                    <!-- Tables  -->
-                    <div class="row mb-5" id="tables">
+                <div class="row mb-n5">
+                    <div id ="questions_view" class="col-lg-9 col-12 mb-5 pr-lg-5">
                         <div class="col-sm-12">
                             <div class="mt-3 mb-5">
                                 <table class="table">
@@ -173,6 +174,45 @@
                                         {{/question}}
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-12 mb-5">
+
+                        <div class="sidebar-widget">
+                            <div class="inner">
+                                <h6 class="title">Search Questions</h6>
+                                </h6>
+                                    <form action="javascript:void(0)">
+                                        <input id= "seacher_key" type="text" placeholder="Seacher">
+                                        <input id="seacher_submit" type="button" class="btn btn-primary" value="Seacher" onclick="SeacherQuestions()">
+                                    </form>
+                                </h6>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-widget">
+                            <div class="inner">
+                                <h6 class="title">Sort Questions</h6>
+                                <h6>
+                                    <form action="#" class="mb-n1">
+                                        <div class="custom-control custom-radio mb-1">
+                                            <input id = "level0" name="level" type="radio" value="easy" onclick="SortQuestions('easy')">
+                                            <span class="badge badge-easy">Easy</span>
+                                        </div>
+
+                                        <div class="custom-control custom-radio mb-1">
+                                            <input id = "level1" name="level" type="radio" value="medium" onclick="SortQuestions('medium')">
+                                            <span class="badge badge-medium">Medium</span>
+                                        </div> 
+
+                                        <div class="custom-control custom-radio mb-1">
+                                            <input id = "level2" name="level" type="radio" value="hard" onclick="SortQuestions('hard')">
+                                            <span class="badge badge-hard">Hard</span>
+                                        </div> 
+                                    </form>
+                                </h6>
                             </div>
                         </div>
                     </div>
@@ -202,7 +242,41 @@
     <script src="/assets/js/main.js"></script>
     <script src="/assets/js/app.js"></script>
     <script>
-        function Change_Password()
+
+        function SeacherQuestions()
+        {
+            var seacher_key = $("#seacher_key").val();
+            htmlobj=$.ajax({
+                url:"/seacher_questions.html" + "?email={{user_email}}&" + "seacher_key=" + seacher_key,
+                type:"GET",
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                async:false,
+                success: function (data) {
+                },
+                error: function (data) {  
+                    alert("Connection error");
+                }
+            });
+            $("#questions_view").html(htmlobj.responseText);
+        }
+
+        function SortQuestions(sort_key)
+        {
+            htmlobj=$.ajax({
+                url:"/sort_questions.html" + "?email={{user_email}}&" + "sort_key=" + sort_key,
+                type:"GET",
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                async:false,
+                success: function (data) {
+                },
+                error: function (data) {  
+                    alert("Connection error");
+                }
+            });
+            $("#questions_view").html(htmlobj.responseText);
+        }
+
+        function ChangePassword()
         {
             var old_password = $("#old_password").val();
             var new_password0 = $("#new_password0").val();

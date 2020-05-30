@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/icons/g11.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/images/icons/g6.png">
 
     <!-- CSS ============================================ -->
 
@@ -47,8 +47,9 @@
                     <ul>
                         <li class="has-children"><a href="/all_questions?email={{user_email}}">Questions</a>
                             <ul class="sub-menu">
-                                <li><a href="/all_questions?email={{user_email}}">All Questions</a></li>
-                                <li><a href="/add_question.html?email={{user_email}}">Add Questions</a></li>
+                                    <li><a href="/all_questions?email={{user_email}}">All Questions</a></li>
+                                    <li><a href="/user_questions.html?email={{user_email}}">My Questions</a></li>
+                                    <li><a href="/add_question.html?email={{user_email}}">Add Questions</a></li>
                             </ul>
                         </li>
                         <li class="has-children">{{user_name}}</a>
@@ -74,6 +75,7 @@
                             <li class="has-children"><a href="/all_questions?email={{user_email}}">Questions</a>
                                 <ul class="sub-menu">
                                     <li><a href="/all_questions?email={{user_email}}">All Questions</a></li>
+                                    <li><a href="/user_questions.html?email={{user_email}}">My Questions</a></li>
                                     <li><a href="/add_question.html?email={{user_email}}">Add Questions</a></li>
                                 </ul>
                             </li>
@@ -162,9 +164,9 @@
                         </ul>
                     </div>
                     <div  id="editor0" style="min-height:400px"><textarea class="form-control" name="code" rows=31 cols=100>{{header}}</textarea></div>
-                    <div  id="editor1" style="min-height:400px"><textarea class="form-control" name="code" rows=31 cols=100></textarea></div>
+                    <div  id="editor1" style="min-height:400px"><textarea class="form-control" name="code" rows=31 cols=100>{{python_header}}</textarea></div>
                     <div class="form-group">
-                        <input type="button" id="submit" class="btn btn-primary" value="提交" onclick="run({{id}})">
+                        <input type="button" id="submit" class="btn btn-primary" value="提交" onclick="run('{{id}}')">
                     </div>
                     <h3>运行结果</h3>
                     <div class="jumbotron" id="output">
@@ -231,7 +233,7 @@
             editor.setFontSize(18);                     // 字体大小
             editor.getSession().setTabSize(4);          // 制表符长度
             editor.session.setUseSoftTabs(true);        // 制表符变为对应长度空格
-            //editor.setOption("wrap", "free")            // 自动换行
+            editor.setOption("wrap", "free")            // 自动换行
             ace.require("ace/ext/language_tools");      // 启动提示菜单
             editor.getSession().setUseWrapMode(true);   // 代码可折叠
             editor.resize();                            // 编辑器自动控制大小
@@ -259,7 +261,7 @@
             editor.setFontSize(18);                     // 字体大小
             editor.getSession().setTabSize(4);          // 制表符长度
             editor.session.setUseSoftTabs(true);        // 制表符变为对应长度空格
-            //editor.setOption("wrap", "free")            // 自动换行
+            editor.setOption("wrap", "free")            // 自动换行
             ace.require("ace/ext/language_tools");      // 启动提示菜单
             editor.getSession().setUseWrapMode(true);   // 代码可折叠
             editor.resize();                            // 编辑器自动控制大小
@@ -303,7 +305,7 @@
                     withCredentials: true,            // 这里设置了withCredentials
                     crossDomain: true,
                     success: function (data) {
-                        var ret_obj =  JSON.parse(data)
+                        var ret_obj = JSON.parse(data)
                         if (ret_obj.code == 0) {
                             alert(ret_obj.message);
                             window.location.reload();
